@@ -2,48 +2,87 @@
 # kfadmin : CLI Tool for Kubeflow Admin
 
 - [kfadmin : CLI Tool for Kubeflow Admin](#kfadmin--cli-tool-for-kubeflow-admin)
-    - [How to build](#how-to-build)
+    - [Prerequitite](#prerequitite)
     - [Commands](#commands)
         - [Users](#users)
             - [Create User](#create-user)
-            - [Delete User](#delete-user)
-            - [Set user password](#set-user-password)
-            - [List Users](#list-users)
-            - [Add User to Namespace](#add-user-to-namespace)
+            - [Delete User (NSY)](#delete-user-nsy)
+            - [Set user password (NSY)](#set-user-password-nsy)
+            - [List Users (NSY)](#list-users-nsy)
         - [Namespace (Kubeflow Profile)](#namespace-kubeflow-profile)
-            - [Create namespace](#create-namespace)
-            - [Change owner](#change-owner)
-            - [Add user to namespace as contributor](#add-user-to-namespace-as-contributor)
-            - [Delete namespace](#delete-namespace)
+            - [Create namespace (NSY)](#create-namespace-nsy)
+            - [Change owner (NSY)](#change-owner-nsy)
+            - [Add user to namespace as contributor (NSY)](#add-user-to-namespace-as-contributor-nsy)
+            - [List namespace (NSY)](#list-namespace-nsy)
+            - [Delete namespace (NSY)](#delete-namespace-nsy)
         - [Secret](#secret)
+            - [Create Generic Secret (NSY)](#create-generic-secret-nsy)
+            - [List Secret (NSY)](#list-secret-nsy)
+            - [Delete Secret (NSY)](#delete-secret-nsy)
+            - [Create Docker Registry Secret (NSY)](#create-docker-registry-secret-nsy)
+            - [List Docker Registry Secret (NSY)](#list-docker-registry-secret-nsy)
+            - [Delete Docker Registry Secret (NSY)](#delete-docker-registry-secret-nsy)
 
-## How to build
+## Prerequitite
 
-`go build`
+- `kubectl`-available environment. (Environment that can run `kubectl get nodes`)
+- Kubernetes v1.17.0+ (maybe?) (TBU)
 
 ## Commands
+
+> NSY : Not Supported Yet!!
 
 ### Users
 
 #### Create User
 
-#### Delete User
+`kfadmin create user -e USER_EMAIL -p PASSWORD`
 
-#### Set user password
+#### Delete User (NSY)
 
-#### List Users
+`kfadmin delete user -e USER_EMAIL`
 
-#### Add User to Namespace
+#### Set user password (NSY)
+
+`kfadmin set user password -e USER_EMAIL -p NEW_PASSWORD`
+
+#### List Users (NSY)
+
+`kfadmin list user`
 
 ### Namespace (Kubeflow Profile)
 
-#### Create namespace
+#### Create namespace (NSY)
 
-#### Change owner
+`kfadmin create namespace -n NAMESPACE_NAME -e OWNER_EMAIL`
 
-#### Add user to namespace as contributor
+#### Change owner (NSY)
 
-#### Delete namespace
+`kfadmin set namespace owner -n NAMESPACE_NAME -e NEW_OWNER_EMAIL`
+
+#### Add user to namespace as contributor (NSY)
+
+`kfadmin add namespace contributor -n NAMESPACE_NAME -e NEW_CONTRIBUTOR_EMAIL`
+
+#### List namespace (NSY)
+
+`kfadmin list namespace`
+
+#### Delete namespace (NSY)
+
+`kfadmin delete namespace -n NAMESPACE_NAME`
 
 ### Secret
+
+#### Create Generic Secret (NSY)
+
+#### List Secret (NSY)
+
+#### Delete Secret (NSY)
+
+#### Create Docker Registry Secret (NSY)
+
+#### List Docker Registry Secret (NSY)
+
+#### Delete Docker Registry Secret (NSY)
 
