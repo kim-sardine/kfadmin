@@ -46,6 +46,7 @@ func CreateUser(email, password string) {
 
 	err = c.RestartDexDeployment()
 	if err != nil {
+		// FIXME: Duplicate code
 		fmt.Println("restart failed")
 		fmt.Println(err)
 		fmt.Println("rollback dex")
