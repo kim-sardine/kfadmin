@@ -37,27 +37,15 @@ func CreateUser(email, password string) {
 	}
 
 	dc.StaticPasswords = append(dc.StaticPasswords, newUser)
-	cm.Data["config.yaml"] = client.MarshalDexConfig(dc)
 
-	err = c.UpdateConfigMap("auth", "dex", cm)
+	err = c.UpdateConfigMap("auth", "dex", dc)
 	if err != nil {
 		panic(err)
 	}
 
-	err = c.RestartDexDeployment()
+	err = c.RestartDexDeployment(originalData)
 	if err != nil {
-		// FIXME: Duplicate code
-		fmt.Println("restart failed")
-		fmt.Println(err)
-		fmt.Println("rollback dex")
-
-		cm = c.GetConfigMap("auth", "dex")
-		cm.Data["config.yaml"] = originalData
-		err := c.UpdateConfigMap("auth", "dex", cm)
-		if err != nil {
-			panic(err)
-		}
-		return
+		panic(err)
 	}
 	fmt.Printf("user '%s' created\n", email)
 }

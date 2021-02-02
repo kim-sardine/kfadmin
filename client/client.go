@@ -71,7 +71,9 @@ func (c *KfClient) GetConfigMap(namespace, name string) *v1.ConfigMap {
 }
 
 // UpdateConfigMap TBU
-func (c *KfClient) UpdateConfigMap(namespace, name string, cm *v1.ConfigMap) error {
+func (c *KfClient) UpdateConfigMap(namespace, name string, dc DexConfigManifest) error {
+	cm := c.GetConfigMap("auth", "dex")
+	cm.Data["config.yaml"] = MarshalDexConfig(dc)
 	_, err := c.cs.CoreV1().ConfigMaps(namespace).Update(context.TODO(), cm, metav1.UpdateOptions{})
 	return err
 }
@@ -89,8 +91,21 @@ func (c *KfClient) GetStaticUsers() []StaticPasswordManifest {
 }
 
 // RestartDexDeployment TBU
-func (c *KfClient) RestartDexDeployment() error {
+// https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/#add-static-users-for-basic-auth
+func (c *KfClient) RestartDexDeployment(backupData string) error {
 	cmd := exec.Command("kubectl", "rollout", "restart", "deployment", "dex", "-n", "auth")
 	_, err := cmd.Output()
-	return err
+	if err != nil {
+		fmt.Println("failed to restart dex deployment")
+
+		fmt.Println("start rollback dex configmap...")
+		dc := UnmarshalDexConfig(backupData)
+		err2 := c.UpdateConfigMap("auth", "dex", dc)
+		if err2 != nil {
+			return err2
+		}
+		fmt.Println("finish rollback dex configmap")
+		return err
+	}
+	return nil
 }

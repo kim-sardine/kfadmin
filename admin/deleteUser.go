@@ -27,27 +27,16 @@ func DeleteUser(email string) {
 
 	// Delete if exists
 	dc.StaticPasswords = append(dc.StaticPasswords[:userIdx], dc.StaticPasswords[userIdx+1:]...)
-	cm.Data["config.yaml"] = client.MarshalDexConfig(dc)
 
 	// Restart
-	err := c.UpdateConfigMap("auth", "dex", cm)
+	err := c.UpdateConfigMap("auth", "dex", dc)
 	if err != nil {
 		panic(err)
 	}
 
-	err = c.RestartDexDeployment()
+	err = c.RestartDexDeployment(originalData)
 	if err != nil {
-		fmt.Println("restart failed")
-		fmt.Println(err)
-		fmt.Println("rollback dex")
-
-		cm = c.GetConfigMap("auth", "dex")
-		cm.Data["config.yaml"] = originalData
-		err := c.UpdateConfigMap("auth", "dex", cm)
-		if err != nil {
-			panic(err)
-		}
-		return
+		panic(err)
 	}
 	fmt.Printf("user '%s' deleted\n", email)
 }

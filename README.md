@@ -13,6 +13,7 @@
         - [Namespace (Kubeflow Profile)](#namespace-kubeflow-profile)
             - [Create namespace (NSY)](#create-namespace-nsy)
             - [Update namespace owner (NSY)](#update-namespace-owner-nsy)
+            - [Update namespace resourceQuota (TBD)](#update-namespace-resourcequota-tbd)
             - [Add user to namespace as contributor (NSY)](#add-user-to-namespace-as-contributor-nsy)
             - [Remove contributor from (NSY)](#remove-contributor-from-nsy)
             - [List namespace (NSY)](#list-namespace-nsy)
@@ -23,7 +24,8 @@
             - [Delete Secret (NSY)](#delete-secret-nsy)
             - [Create Docker Registry Secret (NSY)](#create-docker-registry-secret-nsy)
             - [List Docker Registry Secret (NSY)](#list-docker-registry-secret-nsy)
-            - [Delete Docker Registry Secret (NSY)](#delete-docker-registry-secret-nsy)
+            - [Set Docker Registry Secret as default (TBD)](#set-docker-registry-secret-as-default-tbd)
+            - [Delete Docker Registry Secret (TBD)](#delete-docker-registry-secret-tbd)
 
 ## Prerequitite
 
@@ -39,7 +41,9 @@
 
 ## Commands
 
-> NSY : Not Supported Yet!!
+> NSY : Not Supported Yet
+
+> TBD : To Be Decided
 
 ### Users
 
@@ -53,7 +57,7 @@
 
 #### Update user password
 
-`kfadmin update user -e USER_EMAIL -p NEW_PASSWORD`
+`kfadmin update user password -e USER_EMAIL -p NEW_PASSWORD`
 
 #### Delete User
 
@@ -68,6 +72,10 @@
 #### Update namespace owner (NSY)
 
 `kfadmin update namespace owner -n NAMESPACE_NAME -e NEW_OWNER_EMAIL`
+
+#### Update namespace resourceQuota (TBD)
+
+`kfadmin update namespace quota -n NAMESPACE_NAME -e NEW_OWNER_EMAIL`
 
 #### Add user to namespace as contributor (NSY)
 
@@ -97,5 +105,7 @@
 
 #### List Docker Registry Secret (NSY)
 
-#### Delete Docker Registry Secret (NSY)
+#### Set Docker Registry Secret as default (TBD)
+
+#### Delete Docker Registry Secret (TBD)
 
