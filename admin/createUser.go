@@ -35,7 +35,6 @@ func CreateUser(email, password string) {
 		Username: username,
 		UserID:   getUniqueUUID(uuids),
 	}
-	fmt.Println(newUser)
 
 	dc.StaticPasswords = append(dc.StaticPasswords, newUser)
 	cm.Data["config.yaml"] = client.MarshalDexConfig(dc)
@@ -60,5 +59,5 @@ func CreateUser(email, password string) {
 		fmt.Println("user creation failed.")
 		return
 	}
-	fmt.Println("User Created")
+	fmt.Printf("user '%s' created\n", email)
 }
