@@ -7,13 +7,14 @@
     - [Commands](#commands)
         - [Users](#users)
             - [Create User](#create-user)
+            - [List Users](#list-users)
+            - [Update user password](#update-user-password)
             - [Delete User](#delete-user)
-            - [Set user password (NSY)](#set-user-password-nsy)
-            - [List Users (NSY)](#list-users-nsy)
         - [Namespace (Kubeflow Profile)](#namespace-kubeflow-profile)
             - [Create namespace (NSY)](#create-namespace-nsy)
-            - [Change owner (NSY)](#change-owner-nsy)
+            - [Update namespace owner (NSY)](#update-namespace-owner-nsy)
             - [Add user to namespace as contributor (NSY)](#add-user-to-namespace-as-contributor-nsy)
+            - [Remove contributor from (NSY)](#remove-contributor-from-nsy)
             - [List namespace (NSY)](#list-namespace-nsy)
             - [Delete namespace (NSY)](#delete-namespace-nsy)
         - [Secret](#secret)
@@ -46,17 +47,17 @@
 
 `kfadmin create user -e USER_EMAIL -p PASSWORD`
 
+#### List Users
+
+`kfadmin list user`
+
+#### Update user password
+
+`kfadmin update user -e USER_EMAIL -p NEW_PASSWORD`
+
 #### Delete User
 
 `kfadmin delete user -e USER_EMAIL`
-
-#### Set user password (NSY)
-
-`kfadmin set user password -e USER_EMAIL -p NEW_PASSWORD`
-
-#### List Users (NSY)
-
-`kfadmin list user`
 
 ### Namespace (Kubeflow Profile)
 
@@ -64,13 +65,17 @@
 
 `kfadmin create namespace -n NAMESPACE_NAME -e OWNER_EMAIL`
 
-#### Change owner (NSY)
+#### Update namespace owner (NSY)
 
-`kfadmin set namespace owner -n NAMESPACE_NAME -e NEW_OWNER_EMAIL`
+`kfadmin update namespace owner -n NAMESPACE_NAME -e NEW_OWNER_EMAIL`
 
 #### Add user to namespace as contributor (NSY)
 
 `kfadmin add namespace contributor -n NAMESPACE_NAME -e NEW_CONTRIBUTOR_EMAIL`
+
+#### Remove contributor from (NSY)
+
+`kfadmin delete namespace contributor -n NAMESPACE_NAME -e NEW_CONTRIBUTOR_EMAIL`
 
 #### List namespace (NSY)
 

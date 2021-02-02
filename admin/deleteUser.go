@@ -6,7 +6,7 @@ import (
 	"github.com/kim-sardine/kfadmin/client"
 )
 
-// DeleteUser create kubeflow static password user
+// DeleteUser create kubeflow staticPassword
 func DeleteUser(email string) {
 
 	// Check if user exists
@@ -47,7 +47,6 @@ func DeleteUser(email string) {
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println("user deletion failed.")
 		return
 	}
 	fmt.Printf("user '%s' deleted\n", email)

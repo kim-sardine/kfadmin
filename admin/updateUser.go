@@ -6,39 +6,34 @@ import (
 	"github.com/kim-sardine/kfadmin/client"
 )
 
-// CreateUser create kubeflow staticPassword
-func CreateUser(email, password string) {
+// UpdateUser update kubeflow staticPassword's password
+func UpdateUser(email, password string) {
 
-	username, err := getUsernameFromEmail(email)
-	if err != nil {
-		panic(err)
-	}
-
+	// Check if user exists
 	cm := c.GetConfigMap("auth", "dex")
 	originalData := cm.Data["config.yaml"]
 	dc := client.UnmarshalDexConfig(originalData)
 	users := dc.StaticPasswords
-
-	uuids := make([]string, len(users)+1)
-	for _, user := range users {
-		uuids = append(uuids, user.UserID)
+	userIdx := -1
+	for i, user := range users {
+		if user.Email == email {
+			userIdx = i
+			break
+		}
+	}
+	if userIdx < 0 {
+		panic(fmt.Errorf("user with email '%s' does not exist", email))
 	}
 
+	// Change Password
 	hashedPassword, err := hashPassword(password)
 	if err != nil {
 		panic(err)
 	}
-
-	newUser := client.StaticPasswordManifest{
-		Email:    email,
-		Hash:     hashedPassword,
-		Username: username,
-		UserID:   getUniqueUUID(uuids),
-	}
-
-	dc.StaticPasswords = append(dc.StaticPasswords, newUser)
+	dc.StaticPasswords[userIdx].Hash = hashedPassword
 	cm.Data["config.yaml"] = client.MarshalDexConfig(dc)
 
+	// Restart
 	err = c.UpdateConfigMap("auth", "dex", cm)
 	if err != nil {
 		panic(err)
@@ -46,7 +41,6 @@ func CreateUser(email, password string) {
 
 	err = c.RestartDexDeployment()
 	if err != nil {
-		// FIXME: Duplicate code
 		fmt.Println("restart failed")
 		fmt.Println(err)
 		fmt.Println("rollback dex")
@@ -59,5 +53,5 @@ func CreateUser(email, password string) {
 		}
 		return
 	}
-	fmt.Printf("user '%s' created\n", email)
+	fmt.Printf("user '%s' updated\n", email)
 }

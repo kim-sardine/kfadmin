@@ -6,7 +6,7 @@ import (
 	"github.com/kim-sardine/kfadmin/client"
 )
 
-// ListUser print static users
+// ListUser print staticPassword
 func ListUser() {
 
 	cm := c.GetConfigMap("auth", "dex")
