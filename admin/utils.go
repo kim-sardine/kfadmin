@@ -8,12 +8,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func hashPassword(password string) string {
+func hashPassword(password string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		panic(err)
+		return "", err
 	}
-	return string(hashedPassword)
+	return string(hashedPassword), nil
 }
 
 func getUniqueUUID(uuids []string) string {
@@ -34,10 +34,10 @@ func contains(element string, bucket []string) bool {
 	return false
 }
 
-func getUsernameFromEmail(email string) string {
+func getUsernameFromEmail(email string) (string, error) {
 	idxAt := strings.IndexRune(email, '@')
 	if idxAt == -1 {
-		panic(fmt.Errorf("wrong email format : %s", email))
+		return "", fmt.Errorf("wrong email format : %s", email)
 	}
-	return email[:idxAt]
+	return email[:idxAt], nil
 }

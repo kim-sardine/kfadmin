@@ -9,7 +9,10 @@ import (
 // CreateUser create kubeflow static password user
 func CreateUser(email, password string) {
 
-	username := getUsernameFromEmail(email)
+	username, err := getUsernameFromEmail(email)
+	if err != nil {
+		panic(err)
+	}
 
 	cm := c.GetConfigMap("auth", "dex")
 	originalData := cm.Data["config.yaml"]
@@ -21,9 +24,14 @@ func CreateUser(email, password string) {
 		uuids = append(uuids, user.UserID)
 	}
 
+	hashedPassword, err := hashPassword(password)
+	if err != nil {
+		panic(err)
+	}
+
 	newUser := client.StaticPasswordManifest{
 		Email:    email,
-		Hash:     hashPassword(password),
+		Hash:     hashedPassword,
 		Username: username,
 		UserID:   getUniqueUUID(uuids),
 	}
@@ -32,7 +40,7 @@ func CreateUser(email, password string) {
 	dc.StaticPasswords = append(dc.StaticPasswords, newUser)
 	cm.Data["config.yaml"] = client.MarshalDexConfig(dc)
 
-	err := c.UpdateConfigMap("auth", "dex", cm)
+	err = c.UpdateConfigMap("auth", "dex", cm)
 	if err != nil {
 		panic(err)
 	}
