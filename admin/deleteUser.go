@@ -3,7 +3,7 @@ package admin
 import (
 	"fmt"
 
-	"github.com/kim-sardine/kfadmin/client"
+	"github.com/kim-sardine/kfadmin/client/manifest"
 )
 
 // DeleteUser create kubeflow staticPassword
@@ -12,7 +12,7 @@ func DeleteUser(email string) {
 	// Check if user exists
 	cm := c.GetConfigMap("auth", "dex")
 	originalData := cm.Data["config.yaml"]
-	dc := client.UnmarshalDexConfig(originalData)
+	dc := manifest.UnmarshalDexConfig(originalData)
 	users := dc.StaticPasswords
 	userIdx := -1
 	for i, user := range users {
@@ -28,7 +28,6 @@ func DeleteUser(email string) {
 	// Delete if exists
 	dc.StaticPasswords = append(dc.StaticPasswords[:userIdx], dc.StaticPasswords[userIdx+1:]...)
 
-	// Restart
 	err := c.UpdateConfigMap("auth", "dex", dc)
 	if err != nil {
 		panic(err)

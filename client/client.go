@@ -7,6 +7,8 @@ import (
 	"os/exec"
 	"path/filepath"
 
+	"github.com/kim-sardine/kfadmin/client/manifest"
+
 	"gopkg.in/yaml.v2"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -71,26 +73,64 @@ func (c *KfClient) GetConfigMap(namespace, name string) *v1.ConfigMap {
 }
 
 // UpdateConfigMap TBU
-func (c *KfClient) UpdateConfigMap(namespace, name string, dc DexConfigManifest) error {
+func (c *KfClient) UpdateConfigMap(namespace, name string, dc manifest.DexConfigManifest) error {
 	cm := c.GetConfigMap("auth", "dex")
-	cm.Data["config.yaml"] = MarshalDexConfig(dc)
+	cm.Data["config.yaml"] = manifest.MarshalDexConfig(dc)
 	_, err := c.cs.CoreV1().ConfigMaps(namespace).Update(context.TODO(), cm, metav1.UpdateOptions{})
 	return err
 }
 
 // GetStaticUsers TBU
-func (c *KfClient) GetStaticUsers() []StaticPasswordManifest {
+func (c *KfClient) GetStaticUsers() ([]manifest.StaticPasswordManifest, error) {
 	cm := c.GetConfigMap("auth", "dex")
 	data := cm.Data["config.yaml"]
-	var dc DexConfigManifest
+	var dc manifest.DexConfigManifest
 	err := yaml.Unmarshal([]byte(data), &dc)
 	if err != nil {
-		panic(err)
+		return []manifest.StaticPasswordManifest{}, err
 	}
-	return dc.StaticPasswords
+	return dc.StaticPasswords, nil
+}
+
+// GetProfile TBU
+func (c *KfClient) GetProfile(profileName string) (manifest.Profile, error) {
+	data, err := c.cs.RESTClient().
+		Get().
+		AbsPath("/apis/kubeflow.org/v1/profiles").
+		Name(profileName).
+		DoRaw(context.TODO())
+	if err != nil {
+		return manifest.Profile{}, err
+	}
+
+	profile, err := manifest.UnmarshalProfile(data)
+	if err != nil {
+		return manifest.Profile{}, err
+	}
+
+	return profile, nil
+}
+
+// CreateProfile TBU
+func (c *KfClient) CreateProfile(profile manifest.Profile) error {
+	body, err := manifest.MarshalProfile(profile)
+	if err != nil {
+		return err
+	}
+
+	_, err = c.cs.RESTClient().
+		Post().
+		AbsPath("/apis/kubeflow.org/v1/profiles").
+		Body(body).
+		DoRaw(context.TODO())
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // RestartDexDeployment TBU
+// TODO: Should we restart dex automatically? or let admin manually restart it?
 // https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/#add-static-users-for-basic-auth
 func (c *KfClient) RestartDexDeployment(backupData string) error {
 	cmd := exec.Command("kubectl", "rollout", "restart", "deployment", "dex", "-n", "auth")
@@ -99,7 +139,7 @@ func (c *KfClient) RestartDexDeployment(backupData string) error {
 		fmt.Println("failed to restart dex deployment")
 
 		fmt.Println("start rollback dex configmap...")
-		dc := UnmarshalDexConfig(backupData)
+		dc := manifest.UnmarshalDexConfig(backupData)
 		err2 := c.UpdateConfigMap("auth", "dex", dc)
 		if err2 != nil {
 			return err2

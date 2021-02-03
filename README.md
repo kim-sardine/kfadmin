@@ -8,16 +8,16 @@
         - [Users](#users)
             - [Create User](#create-user)
             - [List Users](#list-users)
-            - [Update user password](#update-user-password)
             - [Delete User](#delete-user)
-        - [Namespace (Kubeflow Profile)](#namespace-kubeflow-profile)
-            - [Create namespace (NSY)](#create-namespace-nsy)
-            - [Update namespace owner (NSY)](#update-namespace-owner-nsy)
-            - [Update namespace resourceQuota (TBD)](#update-namespace-resourcequota-tbd)
-            - [Add user to namespace as contributor (NSY)](#add-user-to-namespace-as-contributor-nsy)
+            - [Update user password](#update-user-password)
+        - [Profile](#profile)
+            - [Create profile](#create-profile)
+            - [List profile (NSY)](#list-profile-nsy)
+            - [Delete profile (NSY)](#delete-profile-nsy)
+            - [Update profile owner (NSY)](#update-profile-owner-nsy)
+            - [Add user to profile as contributor (NSY)](#add-user-to-profile-as-contributor-nsy)
             - [Remove contributor from (NSY)](#remove-contributor-from-nsy)
-            - [List namespace (NSY)](#list-namespace-nsy)
-            - [Delete namespace (NSY)](#delete-namespace-nsy)
+            - [Update profile resourceQuota (TBD)](#update-profile-resourcequota-tbd)
         - [Secret](#secret)
             - [Create Generic Secret (NSY)](#create-generic-secret-nsy)
             - [List Secret (NSY)](#list-secret-nsy)
@@ -55,43 +55,43 @@
 
 `kfadmin list user`
 
-#### Update user password
-
-`kfadmin update user password -e USER_EMAIL -p NEW_PASSWORD`
-
 #### Delete User
 
 `kfadmin delete user -e USER_EMAIL`
 
-### Namespace (Kubeflow Profile)
+#### Update user password
 
-#### Create namespace (NSY)
+`kfadmin update user password -e USER_EMAIL -p NEW_PASSWORD`
 
-`kfadmin create namespace -n NAMESPACE_NAME -e OWNER_EMAIL`
+### Profile
 
-#### Update namespace owner (NSY)
+#### Create profile
 
-`kfadmin update namespace owner -n NAMESPACE_NAME -e NEW_OWNER_EMAIL`
+`kfadmin create profile -p PROFILE_NAME -e OWNER_EMAIL`
 
-#### Update namespace resourceQuota (TBD)
+#### List profile (NSY)
 
-`kfadmin update namespace quota -n NAMESPACE_NAME -e NEW_OWNER_EMAIL`
+`kfadmin list profile`
 
-#### Add user to namespace as contributor (NSY)
+#### Delete profile (NSY)
 
-`kfadmin add namespace contributor -n NAMESPACE_NAME -e NEW_CONTRIBUTOR_EMAIL`
+`kfadmin delete namespace -p PROFILE_NAME`
+
+#### Update profile owner (NSY)
+
+`kfadmin update profile owner -p PROFILE_NAME -e NEW_OWNER_EMAIL`
+
+
+#### Add user to profile as contributor (NSY)
+
+`kfadmin add profile contributor -n PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`
 
 #### Remove contributor from (NSY)
 
-`kfadmin delete namespace contributor -n NAMESPACE_NAME -e NEW_CONTRIBUTOR_EMAIL`
+`kfadmin delete profile contributor -n PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`
 
-#### List namespace (NSY)
+#### Update profile resourceQuota (TBD)
 
-`kfadmin list namespace`
-
-#### Delete namespace (NSY)
-
-`kfadmin delete namespace -n NAMESPACE_NAME`
 
 ### Secret
 

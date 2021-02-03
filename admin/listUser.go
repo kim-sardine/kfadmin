@@ -3,14 +3,14 @@ package admin
 import (
 	"fmt"
 
-	"github.com/kim-sardine/kfadmin/client"
+	"github.com/kim-sardine/kfadmin/client/manifest"
 )
 
 // ListUser print staticPassword
 func ListUser() {
 
 	cm := c.GetConfigMap("auth", "dex")
-	dc := client.UnmarshalDexConfig(cm.Data["config.yaml"])
+	dc := manifest.UnmarshalDexConfig(cm.Data["config.yaml"])
 	for i, user := range dc.StaticPasswords {
 		fmt.Println(i+1, user.Email)
 	}

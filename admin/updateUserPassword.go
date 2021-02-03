@@ -3,7 +3,7 @@ package admin
 import (
 	"fmt"
 
-	"github.com/kim-sardine/kfadmin/client"
+	"github.com/kim-sardine/kfadmin/client/manifest"
 )
 
 // UpdateUserPassword update kubeflow staticPassword's password
@@ -12,7 +12,7 @@ func UpdateUserPassword(email, password string) {
 	// Check if user exists
 	cm := c.GetConfigMap("auth", "dex")
 	originalData := cm.Data["config.yaml"]
-	dc := client.UnmarshalDexConfig(originalData)
+	dc := manifest.UnmarshalDexConfig(originalData)
 	users := dc.StaticPasswords
 	userIdx := -1
 	for i, user := range users {
@@ -32,7 +32,6 @@ func UpdateUserPassword(email, password string) {
 	}
 	dc.StaticPasswords[userIdx].Hash = hashedPassword
 
-	// Restart
 	err = c.UpdateConfigMap("auth", "dex", dc)
 	if err != nil {
 		panic(err)

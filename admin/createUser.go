@@ -3,7 +3,7 @@ package admin
 import (
 	"fmt"
 
-	"github.com/kim-sardine/kfadmin/client"
+	"github.com/kim-sardine/kfadmin/client/manifest"
 )
 
 // CreateUser create kubeflow staticPassword
@@ -16,7 +16,7 @@ func CreateUser(email, password string) {
 
 	cm := c.GetConfigMap("auth", "dex")
 	originalData := cm.Data["config.yaml"]
-	dc := client.UnmarshalDexConfig(originalData)
+	dc := manifest.UnmarshalDexConfig(originalData)
 	users := dc.StaticPasswords
 
 	uuids := make([]string, len(users)+1)
@@ -29,7 +29,7 @@ func CreateUser(email, password string) {
 		panic(err)
 	}
 
-	newUser := client.StaticPasswordManifest{
+	newUser := manifest.StaticPasswordManifest{
 		Email:    email,
 		Hash:     hashedPassword,
 		Username: username,
