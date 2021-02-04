@@ -10,7 +10,11 @@ import (
 func UpdateUserPassword(email, password string) {
 
 	// Check if user exists
-	cm := c.GetConfigMap("auth", "dex")
+	cm, err := c.GetDex()
+	if err != nil {
+		panic(err)
+	}
+
 	originalData := cm.Data["config.yaml"]
 	dc := manifest.UnmarshalDexConfig(originalData)
 	users := dc.StaticPasswords
@@ -30,9 +34,10 @@ func UpdateUserPassword(email, password string) {
 	if err != nil {
 		panic(err)
 	}
-	dc.StaticPasswords[userIdx].Hash = hashedPassword
 
-	err = c.UpdateConfigMap("auth", "dex", dc)
+	dc.StaticPasswords[userIdx].Hash = hashedPassword
+	cm.Data["config.yaml"] = manifest.MarshalDexConfig(dc)
+	err = c.UpdateDex(cm)
 	if err != nil {
 		panic(err)
 	}

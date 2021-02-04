@@ -10,7 +10,11 @@ import (
 func DeleteUser(email string) {
 
 	// Check if user exists
-	cm := c.GetConfigMap("auth", "dex")
+	cm, err := c.GetDex()
+	if err != nil {
+		panic(err)
+	}
+
 	originalData := cm.Data["config.yaml"]
 	dc := manifest.UnmarshalDexConfig(originalData)
 	users := dc.StaticPasswords
@@ -27,8 +31,8 @@ func DeleteUser(email string) {
 
 	// Delete if exists
 	dc.StaticPasswords = append(dc.StaticPasswords[:userIdx], dc.StaticPasswords[userIdx+1:]...)
-
-	err := c.UpdateConfigMap("auth", "dex", dc)
+	cm.Data["config.yaml"] = manifest.MarshalDexConfig(dc)
+	err = c.UpdateDex(cm)
 	if err != nil {
 		panic(err)
 	}

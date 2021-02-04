@@ -47,8 +47,8 @@ type Profile struct {
 	Status ProfileStatus `json:"status,omitempty"`
 }
 
-// CreateProfileManifest TBU
-func CreateProfileManifest(profileName, email string) Profile {
+// GetProfile TBU
+func GetProfile(profileName, email string) Profile {
 	return Profile{
 		TypeMeta: metav1.TypeMeta{
 			APIVersion: "kubeflow.org/v1",

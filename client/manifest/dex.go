@@ -2,8 +2,8 @@ package manifest
 
 import "gopkg.in/yaml.v2"
 
-// DexConfigManifest TBU
-type DexConfigManifest struct {
+// DexDataConfig TBU
+type DexDataConfig struct {
 	Issuer  string `yaml:"issuer"`
 	Storage struct {
 		Type   string `yaml:"type"`
@@ -21,8 +21,8 @@ type DexConfigManifest struct {
 	Oauth2 struct {
 		SkipApprovalScreen bool `yaml:"skipApprovalScreen"`
 	} `yaml:"oauth2"`
-	EnablePasswordDB bool                     `yaml:"enablePasswordDB"`
-	StaticPasswords  []StaticPasswordManifest `yaml:"staticPasswords"`
+	EnablePasswordDB bool             `yaml:"enablePasswordDB"`
+	StaticPasswords  []StaticPassword `yaml:"staticPasswords"`
 	StaticClients    []struct {
 		ID           string   `yaml:"id"`
 		RedirectURIs []string `yaml:"redirectURIs"`
@@ -31,8 +31,8 @@ type DexConfigManifest struct {
 	} `yaml:"staticClients"`
 }
 
-// StaticPasswordManifest TBU
-type StaticPasswordManifest struct {
+// StaticPassword TBU
+type StaticPassword struct {
 	Email    string `yaml:"email"`
 	Hash     string `yaml:"hash"`
 	Username string `yaml:"username"`
@@ -40,8 +40,8 @@ type StaticPasswordManifest struct {
 }
 
 // UnmarshalDexConfig TBU
-func UnmarshalDexConfig(data string) DexConfigManifest {
-	var dc DexConfigManifest
+func UnmarshalDexConfig(data string) DexDataConfig {
+	var dc DexDataConfig
 	err := yaml.Unmarshal([]byte(data), &dc)
 	if err != nil {
 		panic(err)
@@ -50,7 +50,7 @@ func UnmarshalDexConfig(data string) DexConfigManifest {
 }
 
 // MarshalDexConfig TBU
-func MarshalDexConfig(dc DexConfigManifest) string {
+func MarshalDexConfig(dc DexDataConfig) string {
 	data, err := yaml.Marshal(&dc)
 	if err != nil {
 		panic(err)

@@ -20,8 +20,14 @@ import (
 // Client TBU
 type Client interface {
 	LoadClientset()
-	ListPods(string)
-	GetConfigMap(string, string) *v1.ConfigMap
+	GetConfigMap(string, string) (*v1.ConfigMap, error)
+	GetDex() (*v1.ConfigMap, error)
+	UpdateConfigMap(string, *v1.ConfigMap) error
+	UpdateDex(*v1.ConfigMap) error
+	GetStaticUsers() ([]manifest.StaticPassword, error)
+	GetProfile(string) (manifest.Profile, error)
+	CreateProfile(manifest.Profile) error
+	RestartDexDeployment(string) error
 }
 
 // KfClient TBU
@@ -54,40 +60,45 @@ func (c *KfClient) LoadClientset() {
 	c.cs = clientset
 }
 
-// ListPods TBU
-func (c *KfClient) ListPods(namespace string) {
-	pods, err := c.cs.CoreV1().Pods(namespace).List(context.TODO(), metav1.ListOptions{})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(pods)
+// GetConfigMap TBU
+func (c *KfClient) GetConfigMap(namespace, name string) (*v1.ConfigMap, error) {
+	cm, err := c.cs.CoreV1().ConfigMaps(namespace).Get(context.TODO(), name, metav1.GetOptions{})
+	return cm, err
 }
 
-// GetConfigMap TBU
-func (c *KfClient) GetConfigMap(namespace, name string) *v1.ConfigMap {
-	cm, err := c.cs.CoreV1().ConfigMaps(namespace).Get(context.TODO(), name, metav1.GetOptions{})
+// GetDex TBU
+func (c *KfClient) GetDex() (*v1.ConfigMap, error) {
+	dex, err := c.GetConfigMap("auth", "dex")
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	return cm
+	return dex, nil
 }
 
 // UpdateConfigMap TBU
-func (c *KfClient) UpdateConfigMap(namespace, name string, dc manifest.DexConfigManifest) error {
-	cm := c.GetConfigMap("auth", "dex")
-	cm.Data["config.yaml"] = manifest.MarshalDexConfig(dc)
+func (c *KfClient) UpdateConfigMap(namespace string, cm *v1.ConfigMap) error {
 	_, err := c.cs.CoreV1().ConfigMaps(namespace).Update(context.TODO(), cm, metav1.UpdateOptions{})
 	return err
 }
 
+// UpdateDex TBU
+func (c *KfClient) UpdateDex(cm *v1.ConfigMap) error {
+	err := c.UpdateConfigMap("auth", cm)
+	return err
+}
+
 // GetStaticUsers TBU
-func (c *KfClient) GetStaticUsers() ([]manifest.StaticPasswordManifest, error) {
-	cm := c.GetConfigMap("auth", "dex")
-	data := cm.Data["config.yaml"]
-	var dc manifest.DexConfigManifest
-	err := yaml.Unmarshal([]byte(data), &dc)
+func (c *KfClient) GetStaticUsers() ([]manifest.StaticPassword, error) {
+	cm, err := c.GetDex()
 	if err != nil {
-		return []manifest.StaticPasswordManifest{}, err
+		return []manifest.StaticPassword{}, err
+	}
+
+	data := cm.Data["config.yaml"]
+	var dc manifest.DexDataConfig
+	err = yaml.Unmarshal([]byte(data), &dc)
+	if err != nil {
+		return []manifest.StaticPassword{}, err
 	}
 	return dc.StaticPasswords, nil
 }
@@ -139,8 +150,14 @@ func (c *KfClient) RestartDexDeployment(backupData string) error {
 		fmt.Println("failed to restart dex deployment")
 
 		fmt.Println("start rollback dex configmap...")
+		cm, err := c.GetDex()
+		if err != nil {
+			return err
+		}
+
 		dc := manifest.UnmarshalDexConfig(backupData)
-		err2 := c.UpdateConfigMap("auth", "dex", dc)
+		cm.Data["config.yaml"] = manifest.MarshalDexConfig(dc)
+		err2 := c.UpdateDex(cm)
 		if err2 != nil {
 			return err2
 		}

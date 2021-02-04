@@ -10,12 +10,7 @@ import (
 // CreateProfile create kubeflow profile
 func CreateProfile(profileName, email string) {
 
-	// check profile exists
-	// check user exists
-	// create profile if profile not exist and user exists
-
 	_, err := c.GetProfile(profileName)
-	// if profile exists
 	if err == nil {
 		panic(fmt.Errorf("Profile '%s' already exists", profileName))
 	}
@@ -38,7 +33,7 @@ func CreateProfile(profileName, email string) {
 		panic(fmt.Errorf("User with email '%s' does not exist", email))
 	}
 
-	profile := manifest.CreateProfileManifest(profileName, email)
+	profile := manifest.GetProfile(profileName, email)
 	err = c.CreateProfile(profile)
 	if err != nil {
 		panic(err)

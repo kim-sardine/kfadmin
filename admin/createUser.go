@@ -14,7 +14,11 @@ func CreateUser(email, password string) {
 		panic(err)
 	}
 
-	cm := c.GetConfigMap("auth", "dex")
+	cm, err := c.GetDex()
+	if err != nil {
+		panic(err)
+	}
+
 	originalData := cm.Data["config.yaml"]
 	dc := manifest.UnmarshalDexConfig(originalData)
 	users := dc.StaticPasswords
@@ -29,7 +33,7 @@ func CreateUser(email, password string) {
 		panic(err)
 	}
 
-	newUser := manifest.StaticPasswordManifest{
+	newUser := manifest.StaticPassword{
 		Email:    email,
 		Hash:     hashedPassword,
 		Username: username,
@@ -38,7 +42,8 @@ func CreateUser(email, password string) {
 
 	dc.StaticPasswords = append(dc.StaticPasswords, newUser)
 
-	err = c.UpdateConfigMap("auth", "dex", dc)
+	cm.Data["config.yaml"] = manifest.MarshalDexConfig(dc)
+	err = c.UpdateDex(cm)
 	if err != nil {
 		panic(err)
 	}
