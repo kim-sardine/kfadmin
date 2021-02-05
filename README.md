@@ -9,12 +9,12 @@
             - [Create User](#create-user)
             - [List Users](#list-users)
             - [Delete User](#delete-user)
-            - [Update user password](#update-user-password)
+            - [Change user password](#change-user-password)
         - [Profile](#profile)
             - [Create profile](#create-profile)
-            - [List profile (NSY)](#list-profile-nsy)
+            - [List profile](#list-profile)
             - [Delete profile (NSY)](#delete-profile-nsy)
-            - [Update profile owner (NSY)](#update-profile-owner-nsy)
+            - [Change profile owner (NSY)](#change-profile-owner-nsy)
             - [Add user to profile as contributor (NSY)](#add-user-to-profile-as-contributor-nsy)
             - [Remove contributor from (NSY)](#remove-contributor-from-nsy)
             - [Update profile resourceQuota (TBD)](#update-profile-resourcequota-tbd)
@@ -59,7 +59,7 @@
 
 `kfadmin delete user -e USER_EMAIL`
 
-#### Update user password
+#### Change user password
 
 `kfadmin update user password -e USER_EMAIL -p NEW_PASSWORD`
 
@@ -69,7 +69,7 @@
 
 `kfadmin create profile -p PROFILE_NAME -e OWNER_EMAIL`
 
-#### List profile (NSY)
+#### List profile
 
 `kfadmin list profile`
 
@@ -77,10 +77,9 @@
 
 `kfadmin delete namespace -p PROFILE_NAME`
 
-#### Update profile owner (NSY)
+#### Change profile owner (NSY)
 
 `kfadmin update profile owner -p PROFILE_NAME -e NEW_OWNER_EMAIL`
-
 
 #### Add user to profile as contributor (NSY)
 
@@ -91,7 +90,6 @@
 `kfadmin delete profile contributor -n PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`
 
 #### Update profile resourceQuota (TBD)
-
 
 ### Secret
 

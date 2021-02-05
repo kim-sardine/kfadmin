@@ -47,6 +47,13 @@ type Profile struct {
 	Status ProfileStatus `json:"status,omitempty"`
 }
 
+// ProfileList contains a list of Profile
+type ProfileList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []Profile `json:"items"`
+}
+
 // GetProfile TBU
 func GetProfile(profileName, email string) Profile {
 	return Profile{
@@ -74,6 +81,16 @@ func UnmarshalProfile(data []byte) (Profile, error) {
 		return Profile{}, err
 	}
 	return profile, nil
+}
+
+// UnmarshalProfileList TBU
+func UnmarshalProfileList(data []byte) (ProfileList, error) {
+	var profileList ProfileList
+	err := json.Unmarshal(data, &profileList)
+	if err != nil {
+		return ProfileList{}, err
+	}
+	return profileList, nil
 }
 
 // MarshalProfile TBU

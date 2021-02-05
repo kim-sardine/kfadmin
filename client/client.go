@@ -122,6 +122,24 @@ func (c *KfClient) GetProfile(profileName string) (manifest.Profile, error) {
 	return profile, nil
 }
 
+// GetProfileList TBU
+func (c *KfClient) GetProfileList() (manifest.ProfileList, error) {
+	data, err := c.cs.RESTClient().
+		Get().
+		AbsPath("/apis/kubeflow.org/v1/profiles").
+		DoRaw(context.TODO())
+	if err != nil {
+		return manifest.ProfileList{}, err
+	}
+
+	profileList, err := manifest.UnmarshalProfileList(data)
+	if err != nil {
+		return manifest.ProfileList{}, err
+	}
+
+	return profileList, nil
+}
+
 // CreateProfile TBU
 func (c *KfClient) CreateProfile(profile manifest.Profile) error {
 	body, err := manifest.MarshalProfile(profile)
