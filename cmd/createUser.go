@@ -22,6 +22,7 @@ var createUserCmd = &cobra.Command{
 func init() {
 	createCmd.AddCommand(createUserCmd)
 
+	createUserCmd.Flags().SortFlags = false
 	createUserCmd.Flags().StringP("email", "e", "", "User email")
 	createUserCmd.MarkFlagRequired("email")
 	createUserCmd.Flags().StringP("password", "p", "", "User password")

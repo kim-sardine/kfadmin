@@ -22,8 +22,10 @@ var createProfileCmd = &cobra.Command{
 func init() {
 	createCmd.AddCommand(createProfileCmd)
 
+	createProfileCmd.Flags().SortFlags = false
 	createProfileCmd.Flags().StringP("profile", "p", "", "Profile name")
 	createProfileCmd.MarkFlagRequired("profile")
 	createProfileCmd.Flags().StringP("email", "e", "", "Owner email")
 	createProfileCmd.MarkFlagRequired("email")
+
 }

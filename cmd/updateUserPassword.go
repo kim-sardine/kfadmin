@@ -21,6 +21,7 @@ var updateUserPasswordCmd = &cobra.Command{
 func init() {
 	updateUserCmd.AddCommand(updateUserPasswordCmd)
 
+	updateUserPasswordCmd.Flags().SortFlags = false
 	updateUserPasswordCmd.Flags().StringP("email", "e", "", "User email")
 	updateUserPasswordCmd.MarkFlagRequired("email")
 	updateUserPasswordCmd.Flags().StringP("password", "p", "", "User password")

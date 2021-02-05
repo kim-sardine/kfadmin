@@ -21,6 +21,7 @@ var deleteUserCmd = &cobra.Command{
 func init() {
 	deleteCmd.AddCommand(deleteUserCmd)
 
+	deleteUserCmd.Flags().SortFlags = false
 	deleteUserCmd.Flags().StringP("email", "e", "", "User email")
 	deleteUserCmd.MarkFlagRequired("email")
 }
