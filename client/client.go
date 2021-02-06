@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"os/exec"
@@ -11,6 +12,7 @@ import (
 
 	"gopkg.in/yaml.v2"
 	v1 "k8s.io/api/core/v1"
+	rbacv1 "k8s.io/api/rbac/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
@@ -103,6 +105,9 @@ func (c *KfClient) GetStaticUsers() ([]manifest.StaticPassword, error) {
 	return dc.StaticPasswords, nil
 }
 
+// Kubeflow Profile
+// https://www.kubeflow.org/docs/components/multi-tenancy/getting-started/#manual-profile-creation
+
 // GetProfile TBU
 func (c *KfClient) GetProfile(profileName string) (manifest.Profile, error) {
 	data, err := c.cs.RESTClient().
@@ -164,6 +169,35 @@ func (c *KfClient) DeleteProfile(profileName string) error {
 		Delete().
 		AbsPath("/apis/kubeflow.org/v1/profiles").
 		Name(profileName).
+		DoRaw(context.TODO())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// CreateRoleBinding TBU
+func (c *KfClient) CreateRoleBinding(namespace string, roleBinding *rbacv1.RoleBinding) error {
+	_, err := c.cs.RbacV1().RoleBindings(namespace).Create(context.TODO(), roleBinding, metav1.CreateOptions{})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// CreateServiceRoleBinding TBU
+func (c *KfClient) CreateServiceRoleBinding(namespace string, serviceRoleBinding *manifest.ServiceRoleBinding) error {
+	data, err := json.Marshal(serviceRoleBinding)
+	if err != nil {
+		return err
+	}
+
+	absPath := "/apis/rbac.istio.io/v1alpha1/namespaces/" + namespace + "/servicerolebindings"
+
+	_, err = c.cs.RESTClient().
+		Post().
+		AbsPath(absPath).
+		Body(data).
 		DoRaw(context.TODO())
 	if err != nil {
 		return err

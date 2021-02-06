@@ -14,7 +14,7 @@
             - [Create profile](#create-profile)
             - [List profile](#list-profile)
             - [Delete profile](#delete-profile)
-            - [Add user to profile as contributor (NSY)](#add-user-to-profile-as-contributor-nsy)
+            - [Add user to profile as contributor](#add-user-to-profile-as-contributor)
             - [Change profile owner (NSY)](#change-profile-owner-nsy)
             - [Remove contributor from (NSY)](#remove-contributor-from-nsy)
             - [Update profile resourceQuota (TBD)](#update-profile-resourcequota-tbd)
@@ -78,9 +78,9 @@
 
 `kfadmin delete namespace -p PROFILE_NAME`
 
-#### Add user to profile as contributor (NSY)
+#### Add user to profile as contributor
 
-`kfadmin add profile contributor -n PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`
+`kfadmin add profile contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`
 
 #### Change profile owner (NSY)
 
@@ -88,7 +88,7 @@
 
 #### Remove contributor from (NSY)
 
-`kfadmin delete profile contributor -n PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`
+`kfadmin delete profile contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`
 
 #### Update profile resourceQuota (TBD)
 
