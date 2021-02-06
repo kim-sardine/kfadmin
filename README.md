@@ -5,17 +5,17 @@
     - [Prerequitite](#prerequitite)
     - [Confirmed running environment](#confirmed-running-environment)
     - [Commands](#commands)
-        - [Users](#users)
-            - [Create User](#create-user)
-            - [List Users](#list-users)
-            - [Delete User](#delete-user)
-            - [Change user password](#change-user-password)
+        - [Users (Only for Dex)](#users-only-for-dex)
+            - [Create Dex User](#create-dex-user)
+            - [List Dex Users](#list-dex-users)
+            - [Delete Dex User](#delete-dex-user)
+            - [Change Dex User's password](#change-dex-users-password)
         - [Profile](#profile)
             - [Create profile](#create-profile)
             - [List profile](#list-profile)
             - [Delete profile](#delete-profile)
-            - [Change profile owner (NSY)](#change-profile-owner-nsy)
             - [Add user to profile as contributor (NSY)](#add-user-to-profile-as-contributor-nsy)
+            - [Change profile owner (NSY)](#change-profile-owner-nsy)
             - [Remove contributor from (NSY)](#remove-contributor-from-nsy)
             - [Update profile resourceQuota (TBD)](#update-profile-resourcequota-tbd)
         - [Secret](#secret)
@@ -30,8 +30,9 @@
 ## Prerequitite
 
 - `kubectl`
-- kubernetes context
-    - commands like `kubectl get nodes` should be working.
+- kubeconfig file (eg. `~/.kube/config`)
+
+> commands like `kubectl get nodes` should be working.
 
 ## Confirmed running environment
 
@@ -42,24 +43,24 @@
 ## Commands
 
 > NSY : Not Supported Yet
-
+>
 > TBD : To Be Decided
 
-### Users
+### Users (Only for [Dex](https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/))
 
-#### Create User
+#### Create Dex User
 
 `kfadmin create user -e USER_EMAIL -p PASSWORD`
 
-#### List Users
+#### List Dex Users
 
 `kfadmin list user`
 
-#### Delete User
+#### Delete Dex User
 
 `kfadmin delete user -e USER_EMAIL`
 
-#### Change user password
+#### Change Dex User's password
 
 `kfadmin update user password -e USER_EMAIL -p NEW_PASSWORD`
 
@@ -77,13 +78,13 @@
 
 `kfadmin delete namespace -p PROFILE_NAME`
 
-#### Change profile owner (NSY)
-
-`kfadmin update profile owner -p PROFILE_NAME -e NEW_OWNER_EMAIL`
-
 #### Add user to profile as contributor (NSY)
 
 `kfadmin add profile contributor -n PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`
+
+#### Change profile owner (NSY)
+
+`kfadmin update profile owner -p PROFILE_NAME -e NEW_OWNER_EMAIL`
 
 #### Remove contributor from (NSY)
 
