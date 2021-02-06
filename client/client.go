@@ -158,6 +158,19 @@ func (c *KfClient) CreateProfile(profile manifest.Profile) error {
 	return nil
 }
 
+// DeleteProfile TBU
+func (c *KfClient) DeleteProfile(profileName string) error {
+	_, err := c.cs.RESTClient().
+		Delete().
+		AbsPath("/apis/kubeflow.org/v1/profiles").
+		Name(profileName).
+		DoRaw(context.TODO())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // RestartDexDeployment TBU
 // TODO: Should we restart dex automatically? or let admin manually restart it?
 // https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/#add-static-users-for-basic-auth

@@ -13,7 +13,7 @@
         - [Profile](#profile)
             - [Create profile](#create-profile)
             - [List profile](#list-profile)
-            - [Delete profile (NSY)](#delete-profile-nsy)
+            - [Delete profile](#delete-profile)
             - [Change profile owner (NSY)](#change-profile-owner-nsy)
             - [Add user to profile as contributor (NSY)](#add-user-to-profile-as-contributor-nsy)
             - [Remove contributor from (NSY)](#remove-contributor-from-nsy)
@@ -73,7 +73,7 @@
 
 `kfadmin list profile`
 
-#### Delete profile (NSY)
+#### Delete profile
 
 `kfadmin delete namespace -p PROFILE_NAME`
 
