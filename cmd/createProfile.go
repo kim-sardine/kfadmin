@@ -1,9 +1,11 @@
 package cmd
 
 import (
-	"github.com/kim-sardine/kfadmin/admin"
+	"fmt"
 
+	"github.com/kim-sardine/kfadmin/client/manifest"
 	"github.com/spf13/cobra"
+	"k8s.io/apimachinery/pkg/api/errors"
 )
 
 // createProfileCmd create kubeflow profile
@@ -12,10 +14,39 @@ var createProfileCmd = &cobra.Command{
 	Short: "create kubeflow profile",
 	Long:  `TBU`,
 	Run: func(cmd *cobra.Command, args []string) {
-		profile, _ := cmd.Flags().GetString("profile")
+		profileName, _ := cmd.Flags().GetString("profile")
 		email, _ := cmd.Flags().GetString("email")
 
-		admin.CreateProfile(profile, email)
+		_, err := c.GetProfile(profileName)
+		if err == nil {
+			panic(fmt.Errorf("Profile '%s' already exists", profileName))
+		}
+		if !errors.IsNotFound(err) {
+			panic(err)
+		}
+
+		users, err := c.GetStaticUsers()
+		if err != nil {
+			panic(err)
+		}
+		userExists := false
+		for _, user := range users {
+			if user.Email == email {
+				userExists = true
+				break
+			}
+		}
+		if !userExists {
+			panic(fmt.Errorf("User with email '%s' does not exist", email))
+		}
+
+		profile := manifest.GetProfile(profileName, email)
+		err = c.CreateProfile(profile)
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Printf("Profile '%s' created\n", profileName)
 	},
 }
 

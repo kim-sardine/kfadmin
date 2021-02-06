@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/kim-sardine/kfadmin/client"
 	"github.com/spf13/cobra"
 
 	homedir "github.com/mitchellh/go-homedir"
@@ -11,6 +12,8 @@ import (
 )
 
 var cfgFile string
+
+var c *client.KfClient
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -35,6 +38,9 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.kfadmin.yaml)")
 
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
+	c = &client.KfClient{}
+	c.LoadClientset()
 }
 
 // initConfig reads in config file and ENV variables if set.

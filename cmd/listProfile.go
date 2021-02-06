@@ -1,8 +1,10 @@
 package cmd
 
 import (
-	"github.com/kim-sardine/kfadmin/admin"
+	"fmt"
+	"os"
 
+	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/spf13/cobra"
 )
 
@@ -12,7 +14,26 @@ var listProfileCmd = &cobra.Command{
 	Short: "print kubeflow profile",
 	Long:  `TBU`,
 	Run: func(cmd *cobra.Command, args []string) {
-		admin.ListProfile()
+		profileList, err := c.GetProfileList()
+		if err != nil {
+			panic(err)
+		}
+
+		if len(profileList.Items) == 0 {
+			fmt.Println("Kubeflow Profile does not exist")
+			return
+		}
+
+		row := make([]table.Row, len(profileList.Items))
+		for i, profile := range profileList.Items {
+			row = append(row, table.Row{i + 1, profile.ObjectMeta.Name, profile.Spec.Owner.Name})
+		}
+
+		t := table.NewWriter()
+		t.SetOutputMirror(os.Stdout)
+		t.AppendHeader(table.Row{"#", "Profile Name", "Owner's email"})
+		t.AppendRows(row)
+		t.Render()
 	},
 }
 

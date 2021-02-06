@@ -1,9 +1,10 @@
 package cmd
 
 import (
-	"github.com/kim-sardine/kfadmin/admin"
+	"fmt"
 
 	"github.com/spf13/cobra"
+	"k8s.io/apimachinery/pkg/api/errors"
 )
 
 // deleteProfileCmd delete kubeflow profile
@@ -12,9 +13,24 @@ var deleteProfileCmd = &cobra.Command{
 	Short: "delete kubeflow profile",
 	Long:  `TBU`,
 	Run: func(cmd *cobra.Command, args []string) {
-		profile, _ := cmd.Flags().GetString("profile")
+		profileName, _ := cmd.Flags().GetString("profile")
 
-		admin.DeleteProfile(profile)
+		_, err := c.GetProfile(profileName)
+		if err != nil {
+			if errors.IsNotFound(err) {
+				panic(fmt.Errorf("Kubeflow profile '%s' does not exist", profileName))
+
+			} else {
+				panic(err)
+			}
+		}
+
+		err = c.DeleteProfile(profileName)
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Printf("Profile '%s' deleted\n", profileName)
 	},
 }
 
