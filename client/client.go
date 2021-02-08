@@ -22,14 +22,20 @@ import (
 // Client TBU
 type Client interface {
 	LoadClientset()
-	GetConfigMap(string, string) (*v1.ConfigMap, error)
+	GetConfigMap(namespace, name string) (*v1.ConfigMap, error)
 	GetDex() (*v1.ConfigMap, error)
-	UpdateConfigMap(string, *v1.ConfigMap) error
-	UpdateDex(*v1.ConfigMap) error
+	UpdateConfigMap(namespace string, cm *v1.ConfigMap) error
+	UpdateDex(cm *v1.ConfigMap) error
 	GetStaticUsers() ([]manifest.StaticPassword, error)
-	GetProfile(string) (manifest.Profile, error)
-	CreateProfile(manifest.Profile) error
-	RestartDexDeployment(string) error
+	GetProfile(profileName string) (manifest.Profile, error)
+	GetProfileList() (manifest.ProfileList, error)
+	CreateProfile(profile manifest.Profile) error
+	DeleteProfile(profileName string) error
+	CreateRoleBinding(namespace string, roleBinding *rbacv1.RoleBinding) error
+	DeleteRoleBinding(namespace string, roleBinding *rbacv1.RoleBinding) error
+	GetServiceRoleBinding(namespace string, name string) (*manifest.ServiceRoleBinding, error)
+	CreateServiceRoleBinding(namespace string, serviceRoleBinding *manifest.ServiceRoleBinding) error
+	RestartDexDeployment(backupData string) error
 }
 
 // KfClient TBU
@@ -183,6 +189,33 @@ func (c *KfClient) CreateRoleBinding(namespace string, roleBinding *rbacv1.RoleB
 		return err
 	}
 	return nil
+}
+
+// DeleteRoleBinding TBU
+func (c *KfClient) DeleteRoleBinding(namespace string, roleBinding *rbacv1.RoleBinding) error {
+	err := c.cs.RbacV1().RoleBindings(namespace).Delete(context.TODO(), roleBinding.Name, metav1.DeleteOptions{})
+	return err
+}
+
+// GetServiceRoleBinding TBU
+func (c *KfClient) GetServiceRoleBinding(namespace string, name string) (*manifest.ServiceRoleBinding, error) {
+	absPath := "/apis/rbac.istio.io/v1alpha1/namespaces/" + namespace + "/servicerolebindings"
+
+	data, err := c.cs.RESTClient().
+		Get().
+		AbsPath(absPath).
+		Name(name).
+		DoRaw(context.TODO())
+	if err != nil {
+		return nil, err
+	}
+
+	var srb manifest.ServiceRoleBinding
+	err = json.Unmarshal(data, &srb)
+	if err != nil {
+		return nil, err
+	}
+	return &srb, nil
 }
 
 // CreateServiceRoleBinding TBU

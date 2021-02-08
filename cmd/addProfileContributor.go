@@ -43,15 +43,29 @@ var addProfileContributorCmd = &cobra.Command{
 			panic(fmt.Errorf("User with email '%s' does not exist", email))
 		}
 
-		// TODO: Check below resource exists
-		// TODO: Atomic Creation
+		serviceRoleBindingManifest, err := manifest.GetServiceRoleBinding(profile, email)
+		if err != nil {
+			panic(err)
+		}
+		srb, err := c.GetServiceRoleBinding(profile, serviceRoleBindingManifest.Name)
+		if err != nil {
+			if !errors.IsNotFound(err) {
+				panic(err)
+			}
+		}
+		if srb != nil {
+			panic(fmt.Errorf("ServiceRoleBinding '%s' already exists", serviceRoleBindingManifest.Name))
+		}
+
 		roleBinding, err := manifest.GetRoleBinding(profile, email)
+		if err != nil {
+			panic(err)
+		}
 		err = c.CreateRoleBinding(profile, roleBinding)
 		if err != nil {
 			panic(err)
 		}
-		serviceRoleBinding, err := manifest.GetServiceRoleBinding(profile, email)
-		err = c.CreateServiceRoleBinding(profile, serviceRoleBinding)
+		err = c.CreateServiceRoleBinding(profile, serviceRoleBindingManifest)
 		if err != nil {
 			panic(err)
 		}
