@@ -11,7 +11,7 @@ import (
 
 // GetRoleBinding TBU
 func GetRoleBinding(namespace, userName string) (*rbacv1.RoleBinding, error) {
-	bindingName, err := getBindingName(userName)
+	bindingName, err := GetBindingName(userName)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func GetRoleBinding(namespace, userName string) (*rbacv1.RoleBinding, error) {
 
 // GetServiceRoleBinding TBU
 func GetServiceRoleBinding(namespace, userName string) (*ServiceRoleBinding, error) {
-	bindingName, err := getBindingName(userName)
+	bindingName, err := GetBindingName(userName)
 	if err != nil {
 		return nil, err
 	}
@@ -110,8 +110,9 @@ type ServiceRoleBindingList struct {
 	Items           []ServiceRoleBinding `json:"items"`
 }
 
+// GetBindingName TBU
 // https://github.com/kubeflow/kubeflow/blob/d6bf8f85046fbc1ea5efa81cf0ef7905503dba8c/components/access-management/kfam/bindings.go#L58
-func getBindingName(userName string) (string, error) {
+func GetBindingName(userName string) (string, error) {
 	// Only keep lower case letters and numbers, replace other with -
 	reg, err := regexp.Compile("[^a-z0-9]+")
 	if err != nil {

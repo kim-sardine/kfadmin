@@ -16,7 +16,7 @@
             - [Delete profile](#delete-profile)
             - [Add user to profile as contributor](#add-user-to-profile-as-contributor)
             - [Change profile owner (NSY)](#change-profile-owner-nsy)
-            - [Remove contributor from (NSY)](#remove-contributor-from-nsy)
+            - [Remove contributor from profile](#remove-contributor-from-profile)
             - [Update profile resourceQuota (TBD)](#update-profile-resourcequota-tbd)
         - [Secret](#secret)
             - [Create Generic Secret (NSY)](#create-generic-secret-nsy)
@@ -86,7 +86,7 @@
 
 `kfadmin update profile owner -p PROFILE_NAME -e NEW_OWNER_EMAIL`
 
-#### Remove contributor from (NSY)
+#### Remove contributor from profile
 
 `kfadmin delete profile contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`
 

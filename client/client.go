@@ -192,8 +192,8 @@ func (c *KfClient) CreateRoleBinding(namespace string, roleBinding *rbacv1.RoleB
 }
 
 // DeleteRoleBinding TBU
-func (c *KfClient) DeleteRoleBinding(namespace string, roleBinding *rbacv1.RoleBinding) error {
-	err := c.cs.RbacV1().RoleBindings(namespace).Delete(context.TODO(), roleBinding.Name, metav1.DeleteOptions{})
+func (c *KfClient) DeleteRoleBinding(namespace string, name string) error {
+	err := c.cs.RbacV1().RoleBindings(namespace).Delete(context.TODO(), name, metav1.DeleteOptions{})
 	return err
 }
 
@@ -231,6 +231,21 @@ func (c *KfClient) CreateServiceRoleBinding(namespace string, serviceRoleBinding
 		Post().
 		AbsPath(absPath).
 		Body(data).
+		DoRaw(context.TODO())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// DeleteServiceRoleBinding TBU
+func (c *KfClient) DeleteServiceRoleBinding(namespace string, name string) error {
+	absPath := "/apis/rbac.istio.io/v1alpha1/namespaces/" + namespace + "/servicerolebindings"
+
+	_, err := c.cs.RESTClient().
+		Delete().
+		AbsPath(absPath).
+		Name(name).
 		DoRaw(context.TODO())
 	if err != nil {
 		return err
