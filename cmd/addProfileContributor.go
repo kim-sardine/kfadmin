@@ -80,7 +80,7 @@ func init() {
 	addProfileContributorCmd.Flags().SortFlags = false
 	addProfileContributorCmd.Flags().StringP("profile", "p", "", "Profile name")
 	addProfileContributorCmd.MarkFlagRequired("profile")
-	addProfileContributorCmd.Flags().StringP("email", "e", "", "Owner email")
+	addProfileContributorCmd.Flags().StringP("email", "e", "", "User email")
 	addProfileContributorCmd.MarkFlagRequired("email")
 
 }
