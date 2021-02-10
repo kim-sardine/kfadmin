@@ -26,6 +26,11 @@
             - [List Docker Registry Secret (NSY)](#list-docker-registry-secret-nsy)
             - [Set Docker Registry Secret as default (TBD)](#set-docker-registry-secret-as-default-tbd)
             - [Delete Docker Registry Secret (TBD)](#delete-docker-registry-secret-tbd)
+    - [Auto Completion](#auto-completion)
+        - [bash](#bash)
+        - [zsh](#zsh)
+        - [fish](#fish)
+        - [PowerShell](#powershell)
 
 ## Prerequitite
 
@@ -107,4 +112,50 @@
 #### Set Docker Registry Secret as default (TBD)
 
 #### Delete Docker Registry Secret (TBD)
+
+## Auto Completion
+
+### bash
+
+```bash
+$ source <(kfadmin completion bash)
+
+# To load completions for each session, execute once:
+# Linux:
+$ kfadmin completion bash > /etc/bash_completion.d/kfadmin
+# macOS:
+$ kfadmin completion bash > /usr/local/etc/bash_completion.d/kfadmin
+```
+
+### zsh
+
+```bash
+# If shell completion is not already enabled in your environment,
+# you will need to enable it.  You can execute the following once:
+$ echo "autoload -U compinit; compinit" >> ~/.zshrc
+
+# To load completions for each session, execute once:
+$ kfadmin completion zsh > "${fpath[1]}/_kfadmin"
+
+# You will need to start a new shell for this setup to take effect.
+```
+
+### fish
+
+```bash
+$ kfadmin completion fish | source
+
+# To load completions for each session, execute once:
+$ kfadmin completion fish > ~/.config/fish/completions/kfadmin.fish
+```
+
+### PowerShell
+
+```bash
+PS> kfadmin completion powershell | Out-String | Invoke-Expression
+
+# To load completions for every new session, run:
+PS> kfadmin completion powershell > kfadmin.ps1
+# and source this file from your PowerShell profile.
+```
 
