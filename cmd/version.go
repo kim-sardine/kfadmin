@@ -8,7 +8,7 @@ import (
 
 var version string = "v21.02.06"
 
-// versionCmd represents the version command
+// versionCmd print kfadmin version
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Print version",

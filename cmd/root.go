@@ -20,7 +20,20 @@ var rootCmd = &cobra.Command{
 	Use:   "kfadmin",
 	Short: "CLI Tool for Kubeflow admin",
 	Long: `kfadmin is a CLI tool for kubeflow admin.
-Please check your k8s, kubeflow versions before use it.`,
+
+  Find more information at: https://github.com/kim-sardine/kfadmin
+
+Examples:
+- kfadmin create user -e USER_EMAIL -p PASSWORD
+- kfadmin list user
+- kfadmin delete user -e USER_EMAIL
+- kfadmin update user password -e USER_EMAIL -p NEW_PASSWORD
+- kfadmin create profile -p PROFILE_NAME -e OWNER_EMAIL
+- kfadmin list profile
+- kfadmin delete namespace -p PROFILE_NAME
+- kfadmin add profile contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL
+- kfadmin update profile owner -p PROFILE_NAME -e NEW_OWNER_EMAIL
+- kfadmin delete profile contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -35,9 +48,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.kfadmin.yaml)")
-
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.kfadmin.yaml)")
 
 	c = &client.KfClient{}
 	c.LoadClientset()
