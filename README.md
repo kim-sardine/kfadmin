@@ -15,7 +15,7 @@
             - [List profile](#list-profile)
             - [Delete profile](#delete-profile)
             - [Add user to profile as contributor](#add-user-to-profile-as-contributor)
-            - [Change profile owner (NSY)](#change-profile-owner-nsy)
+            - [Change profile owner](#change-profile-owner)
             - [Remove contributor from profile](#remove-contributor-from-profile)
             - [Update profile resourceQuota (TBD)](#update-profile-resourcequota-tbd)
         - [Secret](#secret)
@@ -87,7 +87,7 @@
 
 `kfadmin add profile contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`
 
-#### Change profile owner (NSY)
+#### Change profile owner
 
 `kfadmin update profile owner -p PROFILE_NAME -e NEW_OWNER_EMAIL`
 

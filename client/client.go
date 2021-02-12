@@ -169,6 +169,25 @@ func (c *KfClient) CreateProfile(profile manifest.Profile) error {
 	return nil
 }
 
+// UpdateProfile TBU
+func (c *KfClient) UpdateProfile(profile manifest.Profile) error {
+	body, err := manifest.MarshalProfile(profile)
+	if err != nil {
+		return err
+	}
+
+	_, err = c.cs.RESTClient().
+		Put().
+		AbsPath("/apis/kubeflow.org/v1/profiles").
+		Name(profile.ObjectMeta.Name).
+		Body(body).
+		DoRaw(context.TODO())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // DeleteProfile TBU
 func (c *KfClient) DeleteProfile(profileName string) error {
 	_, err := c.cs.RESTClient().
@@ -185,6 +204,24 @@ func (c *KfClient) DeleteProfile(profileName string) error {
 // CreateRoleBinding TBU
 func (c *KfClient) CreateRoleBinding(namespace string, roleBinding *rbacv1.RoleBinding) error {
 	_, err := c.cs.RbacV1().RoleBindings(namespace).Create(context.TODO(), roleBinding, metav1.CreateOptions{})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// GetRoleBinding TBU
+func (c *KfClient) GetRoleBinding(namespace, name string) (*rbacv1.RoleBinding, error) {
+	rb, err := c.cs.RbacV1().RoleBindings(namespace).Get(context.TODO(), name, metav1.GetOptions{})
+	if err != nil {
+		return nil, err
+	}
+	return rb, nil
+}
+
+// UpdateRoleBinding TBU
+func (c *KfClient) UpdateRoleBinding(namespace string, roleBinding *rbacv1.RoleBinding) error {
+	_, err := c.cs.RbacV1().RoleBindings(namespace).Update(context.TODO(), roleBinding, metav1.UpdateOptions{})
 	if err != nil {
 		return err
 	}
@@ -230,6 +267,27 @@ func (c *KfClient) CreateServiceRoleBinding(namespace string, serviceRoleBinding
 	_, err = c.cs.RESTClient().
 		Post().
 		AbsPath(absPath).
+		Body(data).
+		DoRaw(context.TODO())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// UpdateServiceRoleBinding TBU
+func (c *KfClient) UpdateServiceRoleBinding(namespace string, serviceRoleBinding *manifest.ServiceRoleBinding) error {
+	data, err := json.Marshal(serviceRoleBinding)
+	if err != nil {
+		return err
+	}
+
+	absPath := "/apis/rbac.istio.io/v1alpha1/namespaces/" + namespace + "/servicerolebindings"
+
+	_, err = c.cs.RESTClient().
+		Put().
+		AbsPath(absPath).
+		Name("owner-binding-istio").
 		Body(data).
 		DoRaw(context.TODO())
 	if err != nil {
