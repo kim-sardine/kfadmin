@@ -41,34 +41,6 @@ func GetRoleBinding(namespace, userName string) (*rbacv1.RoleBinding, error) {
 	return rolebinding, nil
 }
 
-// // GetOwnerRoleBinding TBU
-// func GetOwnerRoleBinding(namespace, userName string) (*rbacv1.RoleBinding, error) {
-// 	rolebinding := &rbacv1.RoleBinding{
-// 		TypeMeta: metav1.TypeMeta{
-// 			APIVersion: "rbac.authorization.k8s.io/v1",
-// 			Kind:       "RoleBinding",
-// 		},
-// 		ObjectMeta: metav1.ObjectMeta{
-// 			Annotations: map[string]string{"user": userName, "role": "admin"},
-// 			Name:        bindingName,
-// 			Namespace:   namespace,
-// 		},
-// 		RoleRef: rbacv1.RoleRef{
-// 			APIGroup: "rbac.authorization.k8s.io",
-// 			Kind:     "ClusterRole",
-// 			Name:     "kubeflow-edit",
-// 		},
-// 		Subjects: []rbacv1.Subject{
-// 			{
-// 				APIGroup: "rbac.authorization.k8s.io",
-// 				Kind:     "User",
-// 				Name:     userName,
-// 			},
-// 		},
-// 	}
-// 	return rolebinding, nil
-// }
-
 // GetServiceRoleBinding TBU
 func GetServiceRoleBinding(namespace, userName string) (*ServiceRoleBinding, error) {
 	bindingName, err := GetBindingName(userName)
