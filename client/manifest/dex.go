@@ -23,12 +23,7 @@ type DexDataConfig struct {
 	} `yaml:"oauth2"`
 	EnablePasswordDB bool             `yaml:"enablePasswordDB"`
 	StaticPasswords  []StaticPassword `yaml:"staticPasswords"`
-	StaticClients    []struct {
-		ID           string   `yaml:"id"`
-		RedirectURIs []string `yaml:"redirectURIs"`
-		Name         string   `yaml:"name"`
-		Secret       string   `yaml:"secret"`
-	} `yaml:"staticClients"`
+	StaticClients    []StatiClient    `yaml:"staticClients"`
 }
 
 // StaticPassword TBU
@@ -39,21 +34,29 @@ type StaticPassword struct {
 	UserID   string `yaml:"userID"`
 }
 
-// UnmarshalDexConfig TBU
-func UnmarshalDexConfig(data string) DexDataConfig {
-	var dc DexDataConfig
-	err := yaml.Unmarshal([]byte(data), &dc)
-	if err != nil {
-		panic(err)
-	}
-	return dc
+// StatiClient TBU
+type StatiClient struct {
+	ID           string   `yaml:"id"`
+	RedirectURIs []string `yaml:"redirectURIs,omitempty"`
+	Name         string   `yaml:"name"`
+	Secret       string   `yaml:"secret"`
 }
 
-// MarshalDexConfig TBU
-func MarshalDexConfig(dc DexDataConfig) string {
-	data, err := yaml.Marshal(&dc)
+// UnmarshalDexDataConfig TBU
+func UnmarshalDexDataConfig(data string) (*DexDataConfig, error) {
+	var dc *DexDataConfig = &DexDataConfig{}
+	err := yaml.Unmarshal([]byte(data), dc)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	return string(data)
+	return dc, nil
+}
+
+// MarshalDexDataConfig TBU
+func MarshalDexDataConfig(dc *DexDataConfig) (string, error) {
+	data, err := yaml.Marshal(dc)
+	if err != nil {
+		return "", err
+	}
+	return string(data), nil
 }

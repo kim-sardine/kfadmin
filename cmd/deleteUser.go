@@ -22,7 +22,11 @@ var deleteUserCmd = &cobra.Command{
 		}
 
 		originalData := cm.Data["config.yaml"]
-		dc := manifest.UnmarshalDexConfig(originalData)
+		dc, err := manifest.UnmarshalDexDataConfig(originalData)
+		if err != nil {
+			panic(err)
+		}
+
 		users := dc.StaticPasswords
 		userIdx := -1
 		for i, user := range users {
@@ -37,7 +41,11 @@ var deleteUserCmd = &cobra.Command{
 
 		// Delete if exists
 		dc.StaticPasswords = append(dc.StaticPasswords[:userIdx], dc.StaticPasswords[userIdx+1:]...)
-		cm.Data["config.yaml"] = manifest.MarshalDexConfig(dc)
+		cm.Data["config.yaml"], err = manifest.MarshalDexDataConfig(dc)
+		if err != nil {
+			panic(err)
+		}
+
 		err = c.UpdateDex(cm)
 		if err != nil {
 			panic(err)

@@ -3,6 +3,7 @@ module github.com/kim-sardine/kfadmin
 go 1.15
 
 require (
+	github.com/google/go-cmp v0.5.4
 	github.com/jedib0t/go-pretty/v6 v6.1.0
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/satori/go.uuid v1.2.0

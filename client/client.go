@@ -30,11 +30,16 @@ type Client interface {
 	GetProfile(profileName string) (manifest.Profile, error)
 	GetProfileList() (manifest.ProfileList, error)
 	CreateProfile(profile manifest.Profile) error
+	UpdateProfile(profile manifest.Profile) error
 	DeleteProfile(profileName string) error
 	CreateRoleBinding(namespace string, roleBinding *rbacv1.RoleBinding) error
-	DeleteRoleBinding(namespace string, roleBinding *rbacv1.RoleBinding) error
+	GetRoleBinding(namespace, name string) (*rbacv1.RoleBinding, error)
+	UpdateRoleBinding(namespace string, roleBinding *rbacv1.RoleBinding) error
+	DeleteRoleBinding(namespace string, name string) error
 	GetServiceRoleBinding(namespace string, name string) (*manifest.ServiceRoleBinding, error)
 	CreateServiceRoleBinding(namespace string, serviceRoleBinding *manifest.ServiceRoleBinding) error
+	UpdateServiceRoleBinding(namespace string, serviceRoleBinding *manifest.ServiceRoleBinding) error
+	DeleteServiceRoleBinding(namespace string, name string) error
 	RestartDexDeployment(backupData string) error
 }
 
@@ -326,8 +331,15 @@ func (c *KfClient) RestartDexDeployment(backupData string) error {
 			return err
 		}
 
-		dc := manifest.UnmarshalDexConfig(backupData)
-		cm.Data["config.yaml"] = manifest.MarshalDexConfig(dc)
+		dc, err := manifest.UnmarshalDexDataConfig(backupData)
+		if err != nil {
+			return err
+		}
+		cm.Data["config.yaml"], err = manifest.MarshalDexDataConfig(dc)
+		if err != nil {
+			return err
+		}
+
 		err2 := c.UpdateDex(cm)
 		if err2 != nil {
 			return err2

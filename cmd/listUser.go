@@ -20,7 +20,10 @@ var listUserCmd = &cobra.Command{
 			panic(err)
 		}
 
-		dc := manifest.UnmarshalDexConfig(cm.Data["config.yaml"])
+		dc, err := manifest.UnmarshalDexDataConfig(cm.Data["config.yaml"])
+		if err != nil {
+			panic(err)
+		}
 
 		row := make([]table.Row, len(dc.StaticPasswords))
 		for i, user := range dc.StaticPasswords {
