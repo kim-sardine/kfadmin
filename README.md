@@ -58,9 +58,9 @@
 `kfadmin create user -e USER_EMAIL -p PASSWORD`
 
 - flags
-    - `--no-restart-dex` (NSY)
-        - Do not restart `dex` deployment after updating ConfigMap
-        - To manually reflect change, you have to run `kubectl rollout restart deployment dex -n auth`
+    - `--restart-dex` (NSY)
+        - Restart `dex` deployment after updating ConfigMap to reflect changes
+        - Without this option, you have to run `kubectl rollout restart deployment dex -n auth` to manually reflect changes
     - `-y` (TBD)
 
 #### List Dex Users

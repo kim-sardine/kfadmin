@@ -15,6 +15,9 @@ var createUserCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		email, _ := cmd.Flags().GetString("email")
 		password, _ := cmd.Flags().GetString("password")
+		// TODO: into shared utils
+		// Checkout https://github.com/kubernetes/kubectl/tree/master/pkg/cmd/create
+		restartDex, _ := cmd.Flags().GetBool("restart-dex")
 
 		username, err := getUsernameFromEmail(email)
 		if err != nil {
@@ -63,11 +66,16 @@ var createUserCmd = &cobra.Command{
 			panic(err)
 		}
 
-		err = c.RestartDexDeployment(originalData)
-		if err != nil {
-			panic(err)
+		// TODO: into shared utils
+		if restartDex {
+			err = c.RestartDexDeployment(originalData)
+			if err != nil {
+				panic(err)
+			}
+			fmt.Printf("user '%s' created\n", email)
+		} else {
+			fmt.Printf("user '%s' added to dex ConfigMap\nTo reflext changes, please run below command\n\nkubectl rollout restart deployment dex -n auth\n\n", email)
 		}
-		fmt.Printf("user '%s' created\n", email)
 	},
 }
 
@@ -79,4 +87,6 @@ func init() {
 	createUserCmd.MarkFlagRequired("email")
 	createUserCmd.Flags().StringP("password", "p", "", "User password")
 	createUserCmd.MarkFlagRequired("password")
+	// TODO: into shared utils
+	createUserCmd.Flags().BoolP("restart-dex", "r", false, "Restart dex deployment to reflect changes")
 }
