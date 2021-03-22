@@ -47,8 +47,8 @@ type Profile struct {
 	Status ProfileStatus `json:"status,omitempty"`
 }
 
-// ProfileList contains a list of Profile
-type ProfileList struct {
+// Profiles contains a list of Profile
+type Profiles struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Profile `json:"items"`
@@ -83,14 +83,14 @@ func UnmarshalProfile(data []byte) (Profile, error) {
 	return profile, nil
 }
 
-// UnmarshalProfileList TBU
-func UnmarshalProfileList(data []byte) (ProfileList, error) {
-	var profileList ProfileList
-	err := json.Unmarshal(data, &profileList)
+// UnmarshalProfiles TBU
+func UnmarshalProfiles(data []byte) (Profiles, error) {
+	var profiles Profiles
+	err := json.Unmarshal(data, &profiles)
 	if err != nil {
-		return ProfileList{}, err
+		return Profiles{}, err
 	}
-	return profileList, nil
+	return profiles, nil
 }
 
 // MarshalProfile TBU

@@ -9,10 +9,10 @@ import (
 	"github.com/kim-sardine/kfadmin/client/manifest"
 )
 
-// listUserCmd list all user
-var listUserCmd = &cobra.Command{
+// getUserCmd get all user
+var getUserCmd = &cobra.Command{
 	Use:   "user",
-	Short: "list all user",
+	Short: "get all user",
 	Long:  `TBU`,
 	Run: func(cmd *cobra.Command, args []string) {
 		cm, err := c.GetDex()
@@ -41,5 +41,5 @@ var listUserCmd = &cobra.Command{
 }
 
 func init() {
-	listCmd.AddCommand(listUserCmd)
+	getCmd.AddCommand(getUserCmd)
 }

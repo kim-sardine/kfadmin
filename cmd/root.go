@@ -25,11 +25,11 @@ var rootCmd = &cobra.Command{
 
 Examples:
 - kfadmin create user -e USER_EMAIL -p PASSWORD
-- kfadmin list user
+- kfadmin get user
 - kfadmin delete user -e USER_EMAIL
 - kfadmin update user password -e USER_EMAIL -p NEW_PASSWORD
 - kfadmin create profile -p PROFILE_NAME -e OWNER_EMAIL
-- kfadmin list profile
+- kfadmin get profile
 - kfadmin delete namespace -p PROFILE_NAME
 - kfadmin add profile contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL
 - kfadmin update profile owner -p PROFILE_NAME -e NEW_OWNER_EMAIL

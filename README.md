@@ -7,12 +7,12 @@
     - [Commands](#commands)
         - [Users (Only for Dex)](#users-only-for-dex)
             - [Create Dex User](#create-dex-user)
-            - [List Dex Users](#list-dex-users)
+            - [Get Dex Users](#get-dex-users)
             - [Delete Dex User](#delete-dex-user)
             - [Change Dex User's password](#change-dex-users-password)
         - [Profile](#profile)
             - [Create profile](#create-profile)
-            - [List profile](#list-profile)
+            - [Get profile](#get-profile)
             - [Delete profile](#delete-profile)
             - [Add user to profile as contributor](#add-user-to-profile-as-contributor)
             - [Change profile owner](#change-profile-owner)
@@ -20,10 +20,10 @@
             - [Update profile resourceQuota (TBD)](#update-profile-resourcequota-tbd)
         - [Secret](#secret)
             - [Create Generic Secret (NSY)](#create-generic-secret-nsy)
-            - [List Secret (NSY)](#list-secret-nsy)
+            - [Get Secret (NSY)](#get-secret-nsy)
             - [Delete Secret (NSY)](#delete-secret-nsy)
             - [Create Docker Registry Secret (NSY)](#create-docker-registry-secret-nsy)
-            - [List Docker Registry Secret (NSY)](#list-docker-registry-secret-nsy)
+            - [Get Docker Registry Secret (NSY)](#get-docker-registry-secret-nsy)
             - [Set Docker Registry Secret as default (TBD)](#set-docker-registry-secret-as-default-tbd)
             - [Delete Docker Registry Secret (TBD)](#delete-docker-registry-secret-tbd)
     - [Auto Completion](#auto-completion)
@@ -63,9 +63,9 @@
         - Without this option, you have to run `kubectl rollout restart deployment dex -n auth` to manually reflect changes
     - `-y` (TBD)
 
-#### List Dex Users
+#### Get Dex Users
 
-`kfadmin list user`
+`kfadmin get user`
 
 #### Delete Dex User
 
@@ -81,9 +81,9 @@
 
 `kfadmin create profile -p PROFILE_NAME -e OWNER_EMAIL`
 
-#### List profile
+#### Get profile
 
-`kfadmin list profile`
+`kfadmin get profile`
 
 #### Delete profile
 
@@ -107,13 +107,13 @@
 
 #### Create Generic Secret (NSY)
 
-#### List Secret (NSY)
+#### Get Secret (NSY)
 
 #### Delete Secret (NSY)
 
 #### Create Docker Registry Secret (NSY)
 
-#### List Docker Registry Secret (NSY)
+#### Get Docker Registry Secret (NSY)
 
 #### Set Docker Registry Secret as default (TBD)
 

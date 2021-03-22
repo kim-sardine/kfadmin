@@ -28,7 +28,7 @@ type Client interface {
 	UpdateDex(cm *v1.ConfigMap) error
 	GetStaticUsers() ([]manifest.StaticPassword, error)
 	GetProfile(profileName string) (manifest.Profile, error)
-	GetProfileList() (manifest.ProfileList, error)
+	GetProfiles() (manifest.Profiles, error)
 	CreateProfile(profile manifest.Profile) error
 	UpdateProfile(profile manifest.Profile) error
 	DeleteProfile(profileName string) error
@@ -138,22 +138,22 @@ func (c *KfClient) GetProfile(profileName string) (manifest.Profile, error) {
 	return profile, nil
 }
 
-// GetProfileList TBU
-func (c *KfClient) GetProfileList() (manifest.ProfileList, error) {
+// GetProfiles TBU
+func (c *KfClient) GetProfiles() (manifest.Profiles, error) {
 	data, err := c.cs.RESTClient().
 		Get().
 		AbsPath("/apis/kubeflow.org/v1/profiles").
 		DoRaw(context.TODO())
 	if err != nil {
-		return manifest.ProfileList{}, err
+		return manifest.Profiles{}, err
 	}
 
-	profileList, err := manifest.UnmarshalProfileList(data)
+	profiles, err := manifest.UnmarshalProfiles(data)
 	if err != nil {
-		return manifest.ProfileList{}, err
+		return manifest.Profiles{}, err
 	}
 
-	return profileList, nil
+	return profiles, nil
 }
 
 // CreateProfile TBU

@@ -8,24 +8,24 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// listProfileCmd create kubeflow profile
-var listProfileCmd = &cobra.Command{
+// getProfileCmd create kubeflow profile
+var getProfileCmd = &cobra.Command{
 	Use:   "profile",
 	Short: "print kubeflow profile",
 	Long:  `TBU`,
 	Run: func(cmd *cobra.Command, args []string) {
-		profileList, err := c.GetProfileList()
+		profiles, err := c.GetProfiles()
 		if err != nil {
 			panic(err)
 		}
 
-		if len(profileList.Items) == 0 {
+		if len(profiles.Items) == 0 {
 			fmt.Println("Kubeflow Profile does not exist")
 			return
 		}
 
-		row := make([]table.Row, len(profileList.Items))
-		for i, profile := range profileList.Items {
+		row := make([]table.Row, len(profiles.Items))
+		for i, profile := range profiles.Items {
 			row = append(row, table.Row{i + 1, profile.ObjectMeta.Name, profile.Spec.Owner.Name})
 		}
 
@@ -38,5 +38,5 @@ var listProfileCmd = &cobra.Command{
 }
 
 func init() {
-	listCmd.AddCommand(listProfileCmd)
+	getCmd.AddCommand(getProfileCmd)
 }
