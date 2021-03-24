@@ -7,14 +7,14 @@ import (
 
 func NewCmdGet(c *client.KfClient) *cobra.Command {
 
-	getCmd := &cobra.Command{
+	cmd := &cobra.Command{
 		Use:   "get",
 		Short: "get kubeflow resources",
 		Long:  `TBU`,
 	}
 
-	getCmd.AddCommand(NewCmdGetProfiles(c))
-	getCmd.AddCommand(NewCmdGetUsers(c))
+	cmd.AddCommand(NewCmdGetProfiles(c))
+	cmd.AddCommand(NewCmdGetUsers(c))
 
-	return getCmd
+	return cmd
 }

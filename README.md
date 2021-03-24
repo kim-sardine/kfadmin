@@ -13,10 +13,9 @@
         - [Create](#create)
             - [Create Dex User](#create-dex-user)
             - [Create profile](#create-profile)
+            - [Create contributor using existing user and profile](#create-contributor-using-existing-user-and-profile)
             - [Create Generic Secret (NSY)](#create-generic-secret-nsy)
             - [Create Docker Registry Secret (NSY)](#create-docker-registry-secret-nsy)
-        - [Add](#add)
-            - [Add user to profile as contributor](#add-user-to-profile-as-contributor)
         - [Update](#update)
             - [Change Dex User's password](#change-dex-users-password)
             - [Change profile owner](#change-profile-owner)
@@ -83,15 +82,13 @@
 
 `kfadmin create profile -p PROFILE_NAME -e OWNER_EMAIL`
 
+#### Create contributor using existing user and profile
+
+`kfadmin create contributor -p PROFILE_NAME -e USER_EMAIL`
+
 #### Create Generic Secret (NSY)
 
 #### Create Docker Registry Secret (NSY)
-
-### Add
-
-#### Add user to profile as contributor
-
-`kfadmin add profile contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`
 
 ### Update
 

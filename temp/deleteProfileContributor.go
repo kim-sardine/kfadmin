@@ -10,7 +10,7 @@ import (
 	"github.com/kim-sardine/kfadmin/client/manifest"
 )
 
-// deleteProfileContributorCmd add contributor to kubeflow profile
+// deleteProfileContributorCmd delete contributor to kubeflow profile
 var deleteProfileContributorCmd = &cobra.Command{
 	Use:   "contributor",
 	Short: "delete contributor from kubeflow profile",
