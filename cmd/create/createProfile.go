@@ -11,7 +11,7 @@ import (
 
 func NewCmdCreateProfile(c *client.KfClient) *cobra.Command {
 
-	var cmd = &cobra.Command{
+	cmd := &cobra.Command{
 		Use:   "profile",
 		Short: "create kubeflow profile",
 		Long:  `TBU`,

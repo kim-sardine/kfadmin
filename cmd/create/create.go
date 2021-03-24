@@ -7,7 +7,7 @@ import (
 
 func NewCmdCreate(c *client.KfClient) *cobra.Command {
 
-	var createCmd = &cobra.Command{
+	createCmd := &cobra.Command{
 		Use:   "create",
 		Short: "create kubeflow resources",
 		Long:  `TBU`,
