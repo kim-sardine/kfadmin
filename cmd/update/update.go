@@ -9,7 +9,7 @@ func NewCmdUpdate(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "update",
-		Short: "update kubeflow resources",
+		Short: "Update kubeflow resources",
 		Long:  `TBU`,
 	}
 

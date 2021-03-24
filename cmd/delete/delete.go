@@ -9,7 +9,7 @@ func NewCmdDelete(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "delete",
-		Short: "delete kubeflow resources",
+		Short: "Delete kubeflow resources",
 		Long:  `TBU`,
 	}
 

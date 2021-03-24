@@ -9,7 +9,7 @@ func NewCmdGet(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "get",
-		Short: "get kubeflow resources",
+		Short: "Get kubeflow resources",
 		Long:  `TBU`,
 	}
 
