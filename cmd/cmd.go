@@ -3,7 +3,9 @@ package cmd
 import (
 	"github.com/kim-sardine/kfadmin/client"
 	"github.com/kim-sardine/kfadmin/cmd/create"
+	"github.com/kim-sardine/kfadmin/cmd/delete"
 	"github.com/kim-sardine/kfadmin/cmd/get"
+	"github.com/kim-sardine/kfadmin/cmd/update"
 	"github.com/spf13/cobra"
 )
 
@@ -38,6 +40,8 @@ Examples:
 
 	rootCmd.AddCommand(create.NewCmdCreate(kfClient))
 	rootCmd.AddCommand(get.NewCmdGet(kfClient))
+	rootCmd.AddCommand(update.NewCmdUpdate(kfClient))
+	rootCmd.AddCommand(delete.NewCmdDelete(kfClient))
 
 	return rootCmd
 }
