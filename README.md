@@ -5,26 +5,28 @@
     - [Prerequitite](#prerequitite)
     - [Confirmed running environment](#confirmed-running-environment)
     - [Commands](#commands)
-        - [Users (Only for Dex)](#users-only-for-dex)
-            - [Create Dex User](#create-dex-user)
+        - [Get](#get)
             - [Get Dex Users](#get-dex-users)
-            - [Delete Dex User](#delete-dex-user)
-            - [Change Dex User's password](#change-dex-users-password)
-        - [Profile](#profile)
-            - [Create profile](#create-profile)
             - [Get profile](#get-profile)
-            - [Delete profile](#delete-profile)
-            - [Add user to profile as contributor](#add-user-to-profile-as-contributor)
-            - [Change profile owner](#change-profile-owner)
-            - [Remove contributor from profile](#remove-contributor-from-profile)
-            - [Update profile resourceQuota (TBD)](#update-profile-resourcequota-tbd)
-        - [Secret](#secret)
-            - [Create Generic Secret (NSY)](#create-generic-secret-nsy)
             - [Get Secret (NSY)](#get-secret-nsy)
-            - [Delete Secret (NSY)](#delete-secret-nsy)
-            - [Create Docker Registry Secret (NSY)](#create-docker-registry-secret-nsy)
             - [Get Docker Registry Secret (NSY)](#get-docker-registry-secret-nsy)
+        - [Create](#create)
+            - [Create Dex User](#create-dex-user)
+            - [Create profile](#create-profile)
+            - [Create Generic Secret (NSY)](#create-generic-secret-nsy)
+            - [Create Docker Registry Secret (NSY)](#create-docker-registry-secret-nsy)
+        - [Add](#add)
+            - [Add user to profile as contributor](#add-user-to-profile-as-contributor)
+        - [Update](#update)
+            - [Change Dex User's password](#change-dex-users-password)
+            - [Change profile owner](#change-profile-owner)
+            - [Update profile resourceQuota (TBD)](#update-profile-resourcequota-tbd)
             - [Set Docker Registry Secret as default (TBD)](#set-docker-registry-secret-as-default-tbd)
+        - [Delete](#delete)
+            - [Delete Dex User](#delete-dex-user)
+            - [Delete profile](#delete-profile)
+            - [Delete Secret (NSY)](#delete-secret-nsy)
+            - [Remove contributor from profile](#remove-contributor-from-profile)
             - [Delete Docker Registry Secret (TBD)](#delete-docker-registry-secret-tbd)
     - [Auto Completion](#auto-completion)
         - [bash](#bash)
@@ -51,7 +53,21 @@
 >
 > TBD : To Be Decided
 
-### Users (Only for [Dex](https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/))
+### Get
+
+#### Get Dex Users
+
+`kfadmin get users`
+
+#### Get profile
+
+`kfadmin get profiles`
+
+#### Get Secret (NSY)
+
+#### Get Docker Registry Secret (NSY)
+
+### Create
 
 #### Create Dex User
 
@@ -63,59 +79,49 @@
         - Without this option, you have to run `kubectl rollout restart deployment dex -n auth` to manually reflect changes
     - `-y` (TBD)
 
-#### Get Dex Users
-
-`kfadmin get user`
-
-#### Delete Dex User
-
-`kfadmin delete user -e USER_EMAIL`
-
-#### Change Dex User's password
-
-`kfadmin update user password -e USER_EMAIL -p NEW_PASSWORD`
-
-### Profile
-
 #### Create profile
 
 `kfadmin create profile -p PROFILE_NAME -e OWNER_EMAIL`
 
-#### Get profile
+#### Create Generic Secret (NSY)
 
-`kfadmin get profile`
+#### Create Docker Registry Secret (NSY)
 
-#### Delete profile
-
-`kfadmin delete namespace -p PROFILE_NAME`
+### Add
 
 #### Add user to profile as contributor
 
 `kfadmin add profile contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`
 
+### Update
+
+#### Change Dex User's password
+
+`kfadmin update user password -e USER_EMAIL -p NEW_PASSWORD`
+
 #### Change profile owner
 
 `kfadmin update profile owner -p PROFILE_NAME -e NEW_OWNER_EMAIL`
 
-#### Remove contributor from profile
-
-`kfadmin delete profile contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`
-
 #### Update profile resourceQuota (TBD)
 
-### Secret
+#### Set Docker Registry Secret as default (TBD)
 
-#### Create Generic Secret (NSY)
+### Delete
 
-#### Get Secret (NSY)
+#### Delete Dex User
+
+`kfadmin delete user -e USER_EMAIL`
+
+#### Delete profile
+
+`kfadmin delete namespace -p PROFILE_NAME`
 
 #### Delete Secret (NSY)
 
-#### Create Docker Registry Secret (NSY)
+#### Remove contributor from profile
 
-#### Get Docker Registry Secret (NSY)
-
-#### Set Docker Registry Secret as default (TBD)
+`kfadmin delete profile contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`
 
 #### Delete Docker Registry Secret (TBD)
 
@@ -164,4 +170,3 @@ PS> kfadmin completion powershell | Out-String | Invoke-Expression
 PS> kfadmin completion powershell > kfadmin.ps1
 # and source this file from your PowerShell profile.
 ```
-
