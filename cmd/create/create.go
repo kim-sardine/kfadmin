@@ -1,16 +1,20 @@
 package create
 
 import (
+	"github.com/kim-sardine/kfadmin/client"
 	"github.com/spf13/cobra"
 )
 
-// createCmd create kubeflow resources
-var createCmd = &cobra.Command{
-	Use:   "create",
-	Short: "create kubeflow resources",
-	Long:  `TBU`,
-}
+func NewCmdCreate(c *client.KfClient) *cobra.Command {
 
-func init() {
-	rootCmd.AddCommand(createCmd)
+	var createCmd = &cobra.Command{
+		Use:   "create",
+		Short: "create kubeflow resources",
+		Long:  `TBU`,
+	}
+
+	createCmd.AddCommand(NewCmdCreateProfile(c))
+	createCmd.AddCommand(NewCmdCreateUser(c))
+
+	return createCmd
 }

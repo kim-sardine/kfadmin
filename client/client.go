@@ -48,6 +48,10 @@ type KfClient struct {
 	cs *kubernetes.Clientset
 }
 
+func NewKfClient() *KfClient {
+	return &KfClient{}
+}
+
 // LoadClientset TBU
 func (c *KfClient) LoadClientset() {
 	var kubeconfig *string

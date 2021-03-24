@@ -3,60 +3,60 @@ package create
 import (
 	"fmt"
 
+	"github.com/kim-sardine/kfadmin/client"
 	"github.com/kim-sardine/kfadmin/client/manifest"
 	"github.com/spf13/cobra"
 	"k8s.io/apimachinery/pkg/api/errors"
 )
 
-// createProfileCmd create kubeflow profile
-var createProfileCmd = &cobra.Command{
-	Use:   "profile",
-	Short: "create kubeflow profile",
-	Long:  `TBU`,
-	Run: func(cmd *cobra.Command, args []string) {
-		profileName, _ := cmd.Flags().GetString("profile")
-		email, _ := cmd.Flags().GetString("email")
+func NewCmdCreateProfile(c *client.KfClient) *cobra.Command {
 
-		_, err := c.GetProfile(profileName)
-		if err == nil {
-			panic(fmt.Errorf("Profile '%s' already exists", profileName))
-		}
-		if !errors.IsNotFound(err) {
-			panic(err)
-		}
+	var cmd = &cobra.Command{
+		Use:   "profile",
+		Short: "create kubeflow profile",
+		Long:  `TBU`,
+		Run: func(cmd *cobra.Command, args []string) {
+			profileName, _ := cmd.Flags().GetString("profile")
+			email, _ := cmd.Flags().GetString("email")
 
-		users, err := c.GetStaticUsers()
-		if err != nil {
-			panic(err)
-		}
-		userExists := false
-		for _, user := range users {
-			if user.Email == email {
-				userExists = true
-				break
+			_, err := c.GetProfile(profileName)
+			if err == nil {
+				panic(fmt.Errorf("Profile '%s' already exists", profileName))
 			}
-		}
-		if !userExists {
-			panic(fmt.Errorf("User with email '%s' does not exist", email))
-		}
+			if !errors.IsNotFound(err) {
+				panic(err)
+			}
 
-		profile := manifest.GetProfile(profileName, email)
-		err = c.CreateProfile(profile)
-		if err != nil {
-			panic(err)
-		}
+			users, err := c.GetStaticUsers()
+			if err != nil {
+				panic(err)
+			}
+			userExists := false
+			for _, user := range users {
+				if user.Email == email {
+					userExists = true
+					break
+				}
+			}
+			if !userExists {
+				panic(fmt.Errorf("User with email '%s' does not exist", email))
+			}
 
-		fmt.Printf("Profile '%s' created\n", profileName)
-	},
-}
+			profile := manifest.GetProfile(profileName, email)
+			err = c.CreateProfile(profile)
+			if err != nil {
+				panic(err)
+			}
 
-func init() {
-	createCmd.AddCommand(createProfileCmd)
+			fmt.Printf("Profile '%s' created\n", profileName)
+		},
+	}
 
-	createProfileCmd.Flags().SortFlags = false
-	createProfileCmd.Flags().StringP("profile", "p", "", "Profile name")
-	createProfileCmd.MarkFlagRequired("profile")
-	createProfileCmd.Flags().StringP("email", "e", "", "Owner email")
-	createProfileCmd.MarkFlagRequired("email")
+	cmd.Flags().SortFlags = false
+	cmd.Flags().StringP("profile", "p", "", "Profile name")
+	cmd.MarkFlagRequired("profile")
+	cmd.Flags().StringP("email", "e", "", "Owner email")
+	cmd.MarkFlagRequired("email")
 
+	return cmd
 }

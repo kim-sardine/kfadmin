@@ -1,4 +1,4 @@
-package cmd
+package util
 
 import (
 	"fmt"
@@ -8,7 +8,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func hashPassword(password string) (string, error) {
+// HashPassword TBU
+func HashPassword(password string) (string, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return "", err
@@ -16,7 +17,8 @@ func hashPassword(password string) (string, error) {
 	return string(hashedPassword), nil
 }
 
-func getUniqueUUID(uuids []string) string {
+// GetUniqueUUID TBU
+func GetUniqueUUID(uuids []string) string {
 	for {
 		uuid := uuid.NewV4().String()
 		if !contains(uuid, uuids) {
@@ -34,7 +36,8 @@ func contains(element string, bucket []string) bool {
 	return false
 }
 
-func getUsernameFromEmail(email string) (string, error) {
+// GetUsernameFromEmail TBU
+func GetUsernameFromEmail(email string) (string, error) {
 	idxAt := strings.IndexRune(email, '@')
 	if idxAt == -1 {
 		return "", fmt.Errorf("wrong email format : %s", email)

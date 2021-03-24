@@ -6,12 +6,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var cfgFile string
-
-var c *client.KfClient
-
 func NewKfAdminCommand() *cobra.Command {
-	// rootCmd represents the base command when called without any subcommands
+
 	var rootCmd = &cobra.Command{
 		Use:   "kfadmin",
 		Short: "CLI Tool for Kubeflow admin",
@@ -32,7 +28,7 @@ Examples:
 - kfadmin delete profile contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`,
 	}
 
-	kfClient := &client.KfClient{}
+	kfClient := client.NewKfClient()
 	kfClient.LoadClientset()
 
 	rootCmd.AddCommand(create.NewCmdCreate(kfClient))
