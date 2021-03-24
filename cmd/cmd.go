@@ -29,8 +29,8 @@ Examples:
 - kfadmin update profile owner -p PROFILE_NAME -e NEW_OWNER_EMAIL
 
 - kfadmin delete user -e USER_EMAIL
-- kfadmin delete namespace -p PROFILE_NAME
-- kfadmin delete profile contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`,
+- kfadmin delete profile -p PROFILE_NAME
+- kfadmin delete contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`,
 	}
 
 	kfClient := client.NewKfClient()

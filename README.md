@@ -24,8 +24,8 @@
         - [Delete](#delete)
             - [Delete Dex User](#delete-dex-user)
             - [Delete profile](#delete-profile)
-            - [Delete Secret (NSY)](#delete-secret-nsy)
             - [Remove contributor from profile](#remove-contributor-from-profile)
+            - [Delete Secret (NSY)](#delete-secret-nsy)
             - [Delete Docker Registry Secret (TBD)](#delete-docker-registry-secret-tbd)
     - [Auto Completion](#auto-completion)
         - [bash](#bash)
@@ -73,7 +73,7 @@
 `kfadmin create user -e USER_EMAIL -p PASSWORD`
 
 - flags
-    - `--restart-dex` (NSY)
+    - `--restart-dex`
         - Restart `dex` deployment after updating ConfigMap to reflect changes
         - Without this option, you have to run `kubectl rollout restart deployment dex -n auth` to manually reflect changes
     - `-y` (TBD)
@@ -112,13 +112,13 @@
 
 #### Delete profile
 
-`kfadmin delete namespace -p PROFILE_NAME`
-
-#### Delete Secret (NSY)
+`kfadmin delete profile -p PROFILE_NAME`
 
 #### Remove contributor from profile
 
-`kfadmin delete profile contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`
+`kfadmin delete contributor -p PROFILE_NAME -e USER_EMAIL`
+
+#### Delete Secret (NSY)
 
 #### Delete Docker Registry Secret (TBD)
 
