@@ -6,15 +6,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewCmdVersion() *cobra.Command {
+type VersionString string
 
-	var version string = "v21.03.25"
+var CurrentVersion VersionString = "v21.3.26"
+
+func NewCmdVersion() *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "version",
 		Short: "Print version",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println(version)
+			fmt.Println(CurrentVersion)
 		},
 	}
 

@@ -27,7 +27,7 @@ Examples:
 
 - kfadmin create user -e USER_EMAIL -p PASSWORD
 - kfadmin create profile -p PROFILE_NAME -e OWNER_EMAIL
-- kfadmin create contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL
+- kfadmin create contributor -p PROFILE_NAME -e USER_EMAIL
 
 - kfadmin update user password -e USER_EMAIL -p NEW_PASSWORD
 - kfadmin update profile owner -p PROFILE_NAME -e NEW_OWNER_EMAIL
