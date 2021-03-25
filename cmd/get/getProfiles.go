@@ -12,8 +12,8 @@ import (
 func NewCmdGetProfiles(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
-		Use:   "profile",
-		Short: "print kubeflow profile",
+		Use:   "profiles",
+		Short: "print kubeflow profiles",
 		Long:  `TBU`,
 		Run: func(cmd *cobra.Command, args []string) {
 			profiles, err := c.GetProfiles()

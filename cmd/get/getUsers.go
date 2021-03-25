@@ -13,8 +13,8 @@ import (
 func NewCmdGetUsers(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
-		Use:   "user",
-		Short: "get all user",
+		Use:   "users",
+		Short: "get all users",
 		Long:  `TBU`,
 		Run: func(cmd *cobra.Command, args []string) {
 			cm, err := c.GetDex()
