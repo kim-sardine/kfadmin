@@ -3,14 +3,15 @@ package version
 import (
 	"fmt"
 
+	"github.com/kim-sardine/kfadmin/clioption"
 	"github.com/spf13/cobra"
 )
 
 type VersionString string
 
-var CurrentVersion VersionString = "v21.3.26"
+var CurrentVersion VersionString = "v21.3.31"
 
-func NewCmdVersion() *cobra.Command {
+func NewCmdVersion(ioStreams clioption.IOStreams) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "version",
