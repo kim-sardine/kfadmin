@@ -1,12 +1,13 @@
 package completion
 
 import (
+	"io"
 	"os"
 
 	"github.com/spf13/cobra"
 )
 
-func NewCmdCompletion() *cobra.Command {
+func NewCmdCompletion(out io.Writer) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "completion [bash|zsh|fish|powershell]",

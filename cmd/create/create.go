@@ -2,10 +2,11 @@ package create
 
 import (
 	"github.com/kim-sardine/kfadmin/client"
+	"github.com/kim-sardine/kfadmin/clioption"
 	"github.com/spf13/cobra"
 )
 
-func NewCmdCreate(c *client.KfClient) *cobra.Command {
+func NewCmdCreate(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "create",

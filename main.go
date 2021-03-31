@@ -16,16 +16,14 @@ limitations under the License.
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/kim-sardine/kfadmin/cmd"
 )
 
 func main() {
-	cmd := cmd.NewKfAdminCommand()
+	cmd := cmd.NewKfAdminCommand(os.Stdin, os.Stdout, os.Stderr)
 	if err := cmd.Execute(); err != nil {
-		fmt.Println(err)
 		os.Exit(1)
 	}
 }

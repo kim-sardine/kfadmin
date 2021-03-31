@@ -1,7 +1,10 @@
 package cmd
 
 import (
+	"io"
+
 	"github.com/kim-sardine/kfadmin/client"
+	"github.com/kim-sardine/kfadmin/clioption"
 	"github.com/kim-sardine/kfadmin/cmd/completion"
 	"github.com/kim-sardine/kfadmin/cmd/create"
 	"github.com/kim-sardine/kfadmin/cmd/delete"
@@ -11,7 +14,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewKfAdminCommand() *cobra.Command {
+func NewKfAdminCommand(in io.Reader, out, err io.Writer) *cobra.Command {
 
 	var rootCmd = &cobra.Command{
 		Use:   "kfadmin",
@@ -37,16 +40,18 @@ Examples:
 - kfadmin delete contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`,
 	}
 
+	ioStreams := clioption.IOStreams{In: in, Out: out, ErrOut: err}
+
 	kfClient := client.NewKfClient()
 	kfClient.LoadClientset()
 
-	rootCmd.AddCommand(create.NewCmdCreate(kfClient))
-	rootCmd.AddCommand(get.NewCmdGet(kfClient))
-	rootCmd.AddCommand(update.NewCmdUpdate(kfClient))
-	rootCmd.AddCommand(delete.NewCmdDelete(kfClient))
+	rootCmd.AddCommand(create.NewCmdCreate(kfClient, ioStreams))
+	rootCmd.AddCommand(get.NewCmdGet(kfClient, ioStreams))
+	rootCmd.AddCommand(update.NewCmdUpdate(kfClient, ioStreams))
+	rootCmd.AddCommand(delete.NewCmdDelete(kfClient, ioStreams))
 
-	rootCmd.AddCommand(completion.NewCmdCompletion())
-	rootCmd.AddCommand(version.NewCmdVersion())
+	rootCmd.AddCommand(completion.NewCmdCompletion(ioStreams.Out))
+	rootCmd.AddCommand(version.NewCmdVersion(ioStreams))
 
 	return rootCmd
 }
