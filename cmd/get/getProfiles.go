@@ -2,14 +2,27 @@ package get
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/kim-sardine/kfadmin/client"
+	"github.com/kim-sardine/kfadmin/clioption"
 	"github.com/spf13/cobra"
 )
 
-func NewCmdGetProfiles(c *client.KfClient) *cobra.Command {
+type GetProfileOptions struct {
+	clioption.IOStreams
+}
+
+// NewGetProfileOptions returns initialized Options
+func NewGetProfileOptions(ioStreams clioption.IOStreams) *GetProfileOptions {
+	return &GetProfileOptions{
+		IOStreams: ioStreams,
+	}
+
+}
+
+func NewCmdGetProfiles(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command {
+	o := NewGetProfileOptions(ioStreams)
 
 	cmd := &cobra.Command{
 		Use:   "profiles",
@@ -22,7 +35,7 @@ func NewCmdGetProfiles(c *client.KfClient) *cobra.Command {
 			}
 
 			if len(profiles.Items) == 0 {
-				fmt.Println("Kubeflow Profile does not exist")
+				fmt.Fprintf(o.Out, "Kubeflow Profile does not exist")
 				return
 			}
 
@@ -32,7 +45,7 @@ func NewCmdGetProfiles(c *client.KfClient) *cobra.Command {
 			}
 
 			t := table.NewWriter()
-			t.SetOutputMirror(os.Stdout)
+			t.SetOutputMirror(o.Out)
 			t.AppendHeader(table.Row{"#", "Profile Name", "Owner's email"})
 			t.AppendRows(row)
 			t.Render()

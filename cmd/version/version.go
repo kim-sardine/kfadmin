@@ -11,13 +11,13 @@ type VersionString string
 
 var CurrentVersion VersionString = "v21.3.31"
 
-type Options struct {
+type VersionOptions struct {
 	clioption.IOStreams
 }
 
 // NewOptions returns initialized Options
-func NewOptions(ioStreams clioption.IOStreams) *Options {
-	return &Options{
+func NewOptions(ioStreams clioption.IOStreams) *VersionOptions {
+	return &VersionOptions{
 		IOStreams: ioStreams,
 	}
 

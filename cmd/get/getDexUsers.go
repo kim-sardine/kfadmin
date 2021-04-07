@@ -8,9 +8,10 @@ import (
 
 	"github.com/kim-sardine/kfadmin/client"
 	"github.com/kim-sardine/kfadmin/client/manifest"
+	"github.com/kim-sardine/kfadmin/clioption"
 )
 
-func NewCmdGetDexUsers(c *client.KfClient) *cobra.Command {
+func NewCmdGetDexUsers(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "dex-users",
