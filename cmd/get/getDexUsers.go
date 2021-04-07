@@ -10,11 +10,11 @@ import (
 	"github.com/kim-sardine/kfadmin/client/manifest"
 )
 
-func NewCmdGetUsers(c *client.KfClient) *cobra.Command {
+func NewCmdGetDexUsers(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
-		Use:   "users",
-		Short: "get all users",
+		Use:   "dex-users",
+		Short: "get all dex users",
 		Long:  `TBU`,
 		Run: func(cmd *cobra.Command, args []string) {
 			cm, err := c.GetDex()

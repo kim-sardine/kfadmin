@@ -25,17 +25,17 @@ Find more information at: https://github.com/kim-sardine/kfadmin
 
 Examples:
 
-- kfadmin get users
+- kfadmin get dex-users
 - kfadmin get profiles
 
-- kfadmin create user -e USER_EMAIL -p PASSWORD
+- kfadmin create dex-user -e USER_EMAIL -p PASSWORD
 - kfadmin create profile -p PROFILE_NAME -e OWNER_EMAIL
 - kfadmin create contributor -p PROFILE_NAME -e USER_EMAIL
 
-- kfadmin update user password -e USER_EMAIL -p NEW_PASSWORD
+- kfadmin update dex-user password -e USER_EMAIL -p NEW_PASSWORD
 - kfadmin update profile owner -p PROFILE_NAME -e NEW_OWNER_EMAIL
 
-- kfadmin delete user -e USER_EMAIL
+- kfadmin delete dex-user -e USER_EMAIL
 - kfadmin delete profile -p PROFILE_NAME
 - kfadmin delete contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`,
 	}

@@ -5,15 +5,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewCmdUpdateUser(c *client.KfClient) *cobra.Command {
+func NewCmdUpdateDexUser(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
-		Use:   "user",
+		Use:   "dex-user",
 		Short: "update user information",
 		Long:  `TBU`,
 	}
 
-	cmd.AddCommand(NewCmdUpdateUserPassword(c))
+	cmd.AddCommand(NewCmdUpdateDexUserPassword(c))
 
 	return cmd
 }

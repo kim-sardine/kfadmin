@@ -10,11 +10,11 @@ import (
 )
 
 // NewCmdCreateUser TBU
-func NewCmdCreateUser(c *client.KfClient) *cobra.Command {
+func NewCmdCreateDexUser(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
-		Use:   "user",
-		Short: "create new user",
+		Use:   "dex-user",
+		Short: "create new dex user",
 		Long:  `TBU`,
 		Run: func(cmd *cobra.Command, args []string) {
 			email, _ := cmd.Flags().GetString("email")

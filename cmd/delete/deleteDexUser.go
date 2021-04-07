@@ -8,10 +8,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewCmdDeleteUser(c *client.KfClient) *cobra.Command {
+func NewCmdDeleteDexUser(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
-		Use:   "user",
+		Use:   "dex-user",
 		Short: "delete new user",
 		Long:  `TBU`,
 		Run: func(cmd *cobra.Command, args []string) {

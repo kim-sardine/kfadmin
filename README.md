@@ -56,7 +56,7 @@
 
 #### Get Dex Users
 
-`kfadmin get users`
+`kfadmin get dex-users`
 
 #### Get profile
 
@@ -70,7 +70,7 @@
 
 #### Create Dex User
 
-`kfadmin create user -e USER_EMAIL -p PASSWORD`
+`kfadmin create dex-user -e USER_EMAIL -p PASSWORD`
 
 - flags
     - `--restart-dex`
@@ -94,7 +94,7 @@
 
 #### Change Dex User's password
 
-`kfadmin update user password -e USER_EMAIL -p NEW_PASSWORD`
+`kfadmin update dex-user password -e USER_EMAIL -p NEW_PASSWORD`
 
 #### Change profile owner
 
@@ -108,7 +108,7 @@
 
 #### Delete Dex User
 
-`kfadmin delete user -e USER_EMAIL`
+`kfadmin delete dex-user -e USER_EMAIL`
 
 #### Delete profile
 

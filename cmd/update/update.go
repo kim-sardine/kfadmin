@@ -15,7 +15,7 @@ func NewCmdUpdate(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Comm
 	}
 
 	cmd.AddCommand(NewCmdUpdateProfile(c))
-	cmd.AddCommand(NewCmdUpdateUser(c))
+	cmd.AddCommand(NewCmdUpdateDexUser(c))
 
 	return cmd
 }

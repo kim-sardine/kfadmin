@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewCmdUpdateUserPassword(c *client.KfClient) *cobra.Command {
+func NewCmdUpdateDexUserPassword(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "password",
