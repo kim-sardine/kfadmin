@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	uuid "github.com/satori/go.uuid"
@@ -43,4 +44,13 @@ func GetUsernameFromEmail(email string) (string, error) {
 		return "", fmt.Errorf("wrong email format : %s", email)
 	}
 	return email[:idxAt], nil
+}
+
+func CkeckErr(err error) {
+	if err == nil {
+		return
+	}
+
+	fmt.Fprint(os.Stderr, err.Error())
+	os.Exit(1)
 }

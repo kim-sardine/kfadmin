@@ -15,7 +15,7 @@ func NewCmdGetDexUsers(c *client.KfClient, ioStreams clioption.IOStreams) *cobra
 
 	cmd := &cobra.Command{
 		Use:   "dex-users",
-		Short: "get all dex users",
+		Short: "Print all dex users",
 		Long:  `TBU`,
 		Run: func(cmd *cobra.Command, args []string) {
 			cm, err := c.GetDex()

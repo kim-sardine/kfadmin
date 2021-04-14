@@ -10,7 +10,7 @@ func NewCmdGet(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command
 
 	cmd := &cobra.Command{
 		Use:   "get",
-		Short: "Get kubeflow resources",
+		Short: "Print the information about kubeflow resources",
 		Long:  `TBU`,
 	}
 
