@@ -14,9 +14,9 @@ func NewCmdCreate(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Comm
 		Long:  `TBU`,
 	}
 
-	cmd.AddCommand(NewCmdCreateProfile(c))
-	cmd.AddCommand(NewCmdCreateDexUser(c))
-	cmd.AddCommand(NewCmdCreateContributor(c))
+	cmd.AddCommand(NewCmdCreateProfile(c, ioStreams))
+	cmd.AddCommand(NewCmdCreateDexUser(c, ioStreams))
+	cmd.AddCommand(NewCmdCreateContributor(c, ioStreams))
 
 	return cmd
 }

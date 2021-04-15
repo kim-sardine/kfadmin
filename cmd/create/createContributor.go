@@ -5,12 +5,13 @@ import (
 
 	"github.com/kim-sardine/kfadmin/client"
 	"github.com/kim-sardine/kfadmin/client/manifest"
+	"github.com/kim-sardine/kfadmin/clioption"
 	"github.com/spf13/cobra"
 	"k8s.io/apimachinery/pkg/api/errors"
 )
 
 // NewCmdCreateContributor TBU
-func NewCmdCreateContributor(c *client.KfClient) *cobra.Command {
+func NewCmdCreateContributor(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "contributor",
