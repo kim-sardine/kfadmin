@@ -9,36 +9,34 @@ import (
 )
 
 type GetProfileOptions struct {
-	KfClient *client.KfClient
 	clioption.IOStreams
 }
 
 // NewGetProfileOptions returns initialized Options
-func NewGetProfileOptions(c *client.KfClient, ioStreams clioption.IOStreams) *GetProfileOptions {
+func NewGetProfileOptions(ioStreams clioption.IOStreams) *GetProfileOptions {
 	return &GetProfileOptions{
-		KfClient:  c,
 		IOStreams: ioStreams,
 	}
 
 }
 
 func NewCmdGetProfiles(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command {
-	o := NewGetProfileOptions(c, ioStreams)
+	o := NewGetProfileOptions(ioStreams)
 
 	cmd := &cobra.Command{
 		Use:   "profiles",
 		Short: "Print all kubeflow profiles",
 		Long:  `TBU`,
 		Run: func(cmd *cobra.Command, args []string) {
-			util.CkeckErr(o.Run())
+			util.CkeckErr(o.Run(c, cmd))
 		},
 	}
 
 	return cmd
 }
 
-func (o *GetProfileOptions) Run() error {
-	profiles, err := o.KfClient.GetProfiles()
+func (o *GetProfileOptions) Run(c *client.KfClient, cmd *cobra.Command) error {
+	profiles, err := c.GetProfiles()
 	if err != nil {
 		return err
 	}

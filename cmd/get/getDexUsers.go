@@ -13,36 +13,34 @@ import (
 )
 
 type GetDexUserOptions struct {
-	KfClient *client.KfClient
 	clioption.IOStreams
 }
 
 // NewGetDexUserOptions returns initialized Options
-func NewGetDexUserOptions(c *client.KfClient, ioStreams clioption.IOStreams) *GetDexUserOptions {
+func NewGetDexUserOptions(ioStreams clioption.IOStreams) *GetDexUserOptions {
 	return &GetDexUserOptions{
-		KfClient:  c,
 		IOStreams: ioStreams,
 	}
 
 }
 
 func NewCmdGetDexUsers(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command {
-	o := NewGetDexUserOptions(c, ioStreams)
+	o := NewGetDexUserOptions(ioStreams)
 
 	cmd := &cobra.Command{
 		Use:   "dex-users",
 		Short: "Print all dex users",
 		Long:  `TBU`,
 		Run: func(cmd *cobra.Command, args []string) {
-			util.CkeckErr(o.Run())
+			util.CkeckErr(o.Run(c, cmd))
 		},
 	}
 
 	return cmd
 }
 
-func (o *GetDexUserOptions) Run() error {
-	cm, err := o.KfClient.GetDex()
+func (o *GetDexUserOptions) Run(c *client.KfClient, cmd *cobra.Command) error {
+	cm, err := c.GetDex()
 	if err != nil {
 		return err
 	}
