@@ -10,12 +10,14 @@ import (
 	"k8s.io/apimachinery/pkg/api/errors"
 )
 
+// TODO: Add Option, Remove Dex
+
 // NewCmdCreateContributor TBU
 func NewCmdCreateContributor(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "contributor",
-		Short: "create contributor to kubeflow profile",
+		Short: "Create contributor to kubeflow profile",
 		Long:  `TBU`,
 		Run: func(cmd *cobra.Command, args []string) {
 			profile, _ := cmd.Flags().GetString("profile")

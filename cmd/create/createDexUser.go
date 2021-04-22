@@ -32,7 +32,7 @@ func NewCmdCreateDexUser(c *client.KfClient, ioStreams clioption.IOStreams) *cob
 
 	cmd := &cobra.Command{
 		Use:   "dex-user",
-		Short: "create new dex user",
+		Short: "Create new dex user",
 		Long:  `TBU`,
 		Run: func(cmd *cobra.Command, args []string) {
 			util.CkeckErr(o.Run(c, cmd))

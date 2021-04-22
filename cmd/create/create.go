@@ -10,7 +10,7 @@ func NewCmdCreate(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Comm
 
 	cmd := &cobra.Command{
 		Use:   "create",
-		Short: "Create kubeflow resources",
+		Short: "Create resources like kubeflow, profile, dex-user, contributor",
 		Long:  `TBU`,
 	}
 
