@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// TODO: Move RestartDex option to shared dex option
 type CreateDexUserOptions struct {
 	Email    string
 	Password string

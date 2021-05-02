@@ -8,25 +8,19 @@
         - [Get](#get)
             - [Get Dex Users](#get-dex-users)
             - [Get profile](#get-profile)
-            - [Get Secret (NSY)](#get-secret-nsy)
-            - [Get Docker Registry Secret (NSY)](#get-docker-registry-secret-nsy)
+            - [Get secrets (NSY)](#get-secrets-nsy)
         - [Create](#create)
             - [Create Dex User](#create-dex-user)
             - [Create profile](#create-profile)
             - [Create contributor using existing user and profile](#create-contributor-using-existing-user-and-profile)
-            - [Create Generic Secret (NSY)](#create-generic-secret-nsy)
-            - [Create Docker Registry Secret (NSY)](#create-docker-registry-secret-nsy)
+            - [Create environment variable using opaque secret (NSY)](#create-environment-variable-using-opaque-secret-nsy)
         - [Update](#update)
             - [Change Dex User's password](#change-dex-users-password)
             - [Change profile owner](#change-profile-owner)
-            - [Update profile resourceQuota (TBD)](#update-profile-resourcequota-tbd)
-            - [Set Docker Registry Secret as default (TBD)](#set-docker-registry-secret-as-default-tbd)
         - [Delete](#delete)
             - [Delete Dex User](#delete-dex-user)
             - [Delete profile](#delete-profile)
             - [Remove contributor from profile](#remove-contributor-from-profile)
-            - [Delete Secret (NSY)](#delete-secret-nsy)
-            - [Delete Docker Registry Secret (TBD)](#delete-docker-registry-secret-tbd)
     - [Auto Completion](#auto-completion)
         - [bash](#bash)
         - [zsh](#zsh)
@@ -62,9 +56,7 @@
 
 `kfadmin get profiles`
 
-#### Get Secret (NSY)
-
-#### Get Docker Registry Secret (NSY)
+#### Get secrets (NSY)
 
 ### Create
 
@@ -86,9 +78,7 @@
 
 `kfadmin create contributor -p PROFILE_NAME -e USER_EMAIL`
 
-#### Create Generic Secret (NSY)
-
-#### Create Docker Registry Secret (NSY)
+#### Create environment variable using opaque secret (NSY)
 
 ### Update
 
@@ -99,10 +89,6 @@
 #### Change profile owner
 
 `kfadmin update profile owner -p PROFILE_NAME -e NEW_OWNER_EMAIL`
-
-#### Update profile resourceQuota (TBD)
-
-#### Set Docker Registry Secret as default (TBD)
 
 ### Delete
 
@@ -117,10 +103,6 @@
 #### Remove contributor from profile
 
 `kfadmin delete contributor -p PROFILE_NAME -e USER_EMAIL`
-
-#### Delete Secret (NSY)
-
-#### Delete Docker Registry Secret (TBD)
 
 ## Auto Completion
 
