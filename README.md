@@ -8,12 +8,10 @@
         - [Get](#get)
             - [Get Dex Users](#get-dex-users)
             - [Get profile](#get-profile)
-            - [Get secrets (NSY)](#get-secrets-nsy)
         - [Create](#create)
             - [Create Dex User](#create-dex-user)
             - [Create profile](#create-profile)
             - [Create contributor using existing user and profile](#create-contributor-using-existing-user-and-profile)
-            - [Create environment variable using opaque secret (NSY)](#create-environment-variable-using-opaque-secret-nsy)
         - [Update](#update)
             - [Change Dex User's password](#change-dex-users-password)
             - [Change profile owner](#change-profile-owner)
@@ -56,8 +54,6 @@
 
 `kfadmin get profiles`
 
-#### Get secrets (NSY)
-
 ### Create
 
 #### Create Dex User
@@ -77,8 +73,6 @@
 #### Create contributor using existing user and profile
 
 `kfadmin create contributor -p PROFILE_NAME -e USER_EMAIL`
-
-#### Create environment variable using opaque secret (NSY)
 
 ### Update
 
