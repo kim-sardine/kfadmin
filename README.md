@@ -6,17 +6,17 @@
     - [Confirmed running environment](#confirmed-running-environment)
     - [Commands](#commands)
         - [Get](#get)
-            - [Get Dex Users](#get-dex-users)
-            - [Get profile](#get-profile)
+            - [Get Dex Static Users](#get-dex-static-users)
+            - [Get Profiles](#get-profiles)
         - [Create](#create)
-            - [Create Dex User](#create-dex-user)
+            - [Create Dex Static User](#create-dex-static-user)
             - [Create profile](#create-profile)
             - [Create contributor using existing user and profile](#create-contributor-using-existing-user-and-profile)
         - [Update](#update)
-            - [Change Dex User's password](#change-dex-users-password)
+            - [Change Dex Static User's password](#change-dex-static-users-password)
             - [Change profile owner](#change-profile-owner)
         - [Delete](#delete)
-            - [Delete Dex User](#delete-dex-user)
+            - [Delete Dex Static User](#delete-dex-static-user)
             - [Delete profile](#delete-profile)
             - [Remove contributor from profile](#remove-contributor-from-profile)
     - [Auto Completion](#auto-completion)
@@ -46,22 +46,26 @@
 
 ### Get
 
-#### Get Dex Users
+#### Get Dex Static Users
 
-`kfadmin get dex-users`
+> Only when you're using `staticPasswords`
 
-#### Get profile
+`kfadmin get static-users`
+
+#### Get Profiles
 
 `kfadmin get profiles`
 
 ### Create
 
-#### Create Dex User
+#### Create Dex Static User
 
-`kfadmin create dex-user -e USER_EMAIL -p PASSWORD`
+> Only when you're using `staticPasswords`
+
+`kfadmin create static-user -e USER_EMAIL -p PASSWORD`
 
 - flags
-    - `--restart-dex`
+    - `-r`, `--restart-dex`
         - Restart `dex` deployment after updating ConfigMap to reflect changes
         - Without this option, you have to run `kubectl rollout restart deployment dex -n auth` to manually reflect changes
     - `-y` (TBD)
@@ -76,9 +80,9 @@
 
 ### Update
 
-#### Change Dex User's password
+#### Change Dex Static User's password
 
-`kfadmin update dex-user password -e USER_EMAIL -p NEW_PASSWORD`
+`kfadmin update static-user password -e USER_EMAIL -p NEW_PASSWORD`
 
 #### Change profile owner
 
@@ -86,9 +90,9 @@
 
 ### Delete
 
-#### Delete Dex User
+#### Delete Dex Static User
 
-`kfadmin delete dex-user -e USER_EMAIL`
+`kfadmin delete static-user -e USER_EMAIL`
 
 #### Delete profile
 

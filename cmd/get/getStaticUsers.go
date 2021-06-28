@@ -12,24 +12,24 @@ import (
 	"github.com/kim-sardine/kfadmin/cmd/util"
 )
 
-type GetDexUserOptions struct {
+type GetStaticUserOptions struct {
 	clioption.IOStreams
 }
 
-// NewGetDexUserOptions returns initialized Options
-func NewGetDexUserOptions(ioStreams clioption.IOStreams) *GetDexUserOptions {
-	return &GetDexUserOptions{
+// NewGetStaticUserOptions returns initialized Options
+func NewGetStaticUserOptions(ioStreams clioption.IOStreams) *GetStaticUserOptions {
+	return &GetStaticUserOptions{
 		IOStreams: ioStreams,
 	}
 
 }
 
-func NewCmdGetDexUsers(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command {
-	o := NewGetDexUserOptions(ioStreams)
+func NewCmdGetStaticUsers(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command {
+	o := NewGetStaticUserOptions(ioStreams)
 
 	cmd := &cobra.Command{
-		Use:   "dex-users",
-		Short: "Print all dex users",
+		Use:   "static-users",
+		Short: "Print all dex static users",
 		Long:  `TBU`,
 		Run: func(cmd *cobra.Command, args []string) {
 			util.CkeckErr(o.Run(c, cmd))
@@ -39,7 +39,7 @@ func NewCmdGetDexUsers(c *client.KfClient, ioStreams clioption.IOStreams) *cobra
 	return cmd
 }
 
-func (o *GetDexUserOptions) Run(c *client.KfClient, cmd *cobra.Command) error {
+func (o *GetStaticUserOptions) Run(c *client.KfClient, cmd *cobra.Command) error {
 	cm, err := c.GetDex()
 	if err != nil {
 		return err

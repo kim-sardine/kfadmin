@@ -11,7 +11,7 @@ import (
 )
 
 // TODO: Move RestartDex option to shared dex option
-type CreateDexUserOptions struct {
+type CreateStaticUserOptions struct {
 	Email    string
 	Password string
 
@@ -20,20 +20,20 @@ type CreateDexUserOptions struct {
 	clioption.IOStreams
 }
 
-// NewCreateDexUserOptions returns initialized Options
-func NewCreateDexUserOptions(ioStreams clioption.IOStreams) *CreateDexUserOptions {
-	return &CreateDexUserOptions{
+// NewCreateStaticUserOptions returns initialized Options
+func NewCreateStaticUserOptions(ioStreams clioption.IOStreams) *CreateStaticUserOptions {
+	return &CreateStaticUserOptions{
 		IOStreams: ioStreams,
 	}
 
 }
 
-func NewCmdCreateDexUser(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command {
-	o := NewCreateDexUserOptions(ioStreams)
+func NewCmdCreateStaticUser(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command {
+	o := NewCreateStaticUserOptions(ioStreams)
 
 	cmd := &cobra.Command{
-		Use:   "dex-user",
-		Short: "Create new dex user",
+		Use:   "static-user",
+		Short: "Create new dex static user",
 		Long:  `TBU`,
 		Run: func(cmd *cobra.Command, args []string) {
 			util.CkeckErr(o.Run(c, cmd))
@@ -41,9 +41,9 @@ func NewCmdCreateDexUser(c *client.KfClient, ioStreams clioption.IOStreams) *cob
 	}
 
 	cmd.Flags().SortFlags = false
-	cmd.Flags().StringVarP(&o.Email, "email", "e", "", "Email of new dex-user")
+	cmd.Flags().StringVarP(&o.Email, "email", "e", "", "Email of new dex static user")
 	cmd.MarkFlagRequired("email")
-	cmd.Flags().StringVarP(&o.Password, "password", "p", "", "Password of new dex-user")
+	cmd.Flags().StringVarP(&o.Password, "password", "p", "", "Password of new dex static user")
 	cmd.MarkFlagRequired("password")
 	// TODO: into shared util
 	cmd.Flags().BoolVarP(&o.RestartDex, "restart-dex", "r", false, "Restart dex deployment to reflect changes")
@@ -51,7 +51,7 @@ func NewCmdCreateDexUser(c *client.KfClient, ioStreams clioption.IOStreams) *cob
 	return cmd
 }
 
-func (o *CreateDexUserOptions) Run(c *client.KfClient, cmd *cobra.Command) error {
+func (o *CreateStaticUserOptions) Run(c *client.KfClient, cmd *cobra.Command) error {
 
 	email := o.Email
 	password := o.Password

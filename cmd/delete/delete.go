@@ -15,7 +15,7 @@ func NewCmdDelete(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Comm
 	}
 
 	cmd.AddCommand(NewCmdDeleteProfile(c))
-	cmd.AddCommand(NewCmdDeleteDexUser(c))
+	cmd.AddCommand(NewCmdDeleteStaticUser(c))
 	cmd.AddCommand(NewCmdDeleteContributor(c))
 
 	return cmd

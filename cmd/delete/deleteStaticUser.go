@@ -8,11 +8,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewCmdDeleteDexUser(c *client.KfClient) *cobra.Command {
+func NewCmdDeleteStaticUser(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
-		Use:   "dex-user",
-		Short: "delete new user",
+		Use:   "static-user",
+		Short: "delete dex static user",
 		Long:  `TBU`,
 		Run: func(cmd *cobra.Command, args []string) {
 			email, _ := cmd.Flags().GetString("email")
@@ -57,7 +57,7 @@ func NewCmdDeleteDexUser(c *client.KfClient) *cobra.Command {
 			if err != nil {
 				panic(err)
 			}
-			fmt.Printf("user '%s' deleted\n", email)
+			fmt.Printf("static user '%s' deleted\n", email)
 		},
 	}
 

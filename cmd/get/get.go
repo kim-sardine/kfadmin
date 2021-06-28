@@ -15,7 +15,7 @@ func NewCmdGet(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command
 	}
 
 	cmd.AddCommand(NewCmdGetProfiles(c, ioStreams))
-	cmd.AddCommand(NewCmdGetDexUsers(c, ioStreams))
+	cmd.AddCommand(NewCmdGetStaticUsers(c, ioStreams))
 
 	return cmd
 }

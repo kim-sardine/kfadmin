@@ -17,7 +17,7 @@ func NewCmdCreateContributor(c *client.KfClient, ioStreams clioption.IOStreams) 
 
 	cmd := &cobra.Command{
 		Use:   "contributor",
-		Short: "Create contributor to kubeflow profile",
+		Short: "Create contributor for kubeflow profile",
 		Long:  `TBU`,
 		Run: func(cmd *cobra.Command, args []string) {
 			profile, _ := cmd.Flags().GetString("profile")

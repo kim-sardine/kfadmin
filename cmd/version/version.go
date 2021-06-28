@@ -9,7 +9,7 @@ import (
 
 type VersionString string
 
-var CurrentVersion VersionString = "v21.3.31"
+var CurrentVersion VersionString = "v21.6.28"
 
 type VersionOptions struct {
 	clioption.IOStreams

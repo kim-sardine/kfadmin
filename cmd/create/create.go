@@ -10,12 +10,12 @@ func NewCmdCreate(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Comm
 
 	cmd := &cobra.Command{
 		Use:   "create",
-		Short: "Create resources like kubeflow, profile, dex-user, contributor",
+		Short: "Create resources like kubeflow profile, dex static user. Or Add contributor",
 		Long:  `TBU`,
 	}
 
 	cmd.AddCommand(NewCmdCreateProfile(c, ioStreams))
-	cmd.AddCommand(NewCmdCreateDexUser(c, ioStreams))
+	cmd.AddCommand(NewCmdCreateStaticUser(c, ioStreams))
 	cmd.AddCommand(NewCmdCreateContributor(c, ioStreams))
 
 	return cmd

@@ -9,11 +9,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewCmdUpdateDexUserPassword(c *client.KfClient) *cobra.Command {
+func NewCmdUpdateStaticUserPassword(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "password",
-		Short: "udpate dex staticPassword's password",
+		Short: "udpate dex static user's password",
 		Long:  `TBU`,
 		Run: func(cmd *cobra.Command, args []string) {
 			email, _ := cmd.Flags().GetString("email")
