@@ -26,7 +26,7 @@ func NewCmdGetProfiles(c *client.KfClient, ioStreams clioption.IOStreams) *cobra
 	cmd := &cobra.Command{
 		Use:   "profiles",
 		Short: "Print all kubeflow profiles",
-		Long:  `TBU`,
+		Long:  `Print all kubeflow profiles`,
 		Run: func(cmd *cobra.Command, args []string) {
 			util.CkeckErr(o.Run(c, cmd))
 		},

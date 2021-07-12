@@ -30,7 +30,7 @@ func NewCmdGetStaticUsers(c *client.KfClient, ioStreams clioption.IOStreams) *co
 	cmd := &cobra.Command{
 		Use:   "static-users",
 		Short: "Print all dex static users",
-		Long:  `TBU`,
+		Long:  `Print all dex static users`,
 		Run: func(cmd *cobra.Command, args []string) {
 			util.CkeckErr(o.Run(c, cmd))
 		},

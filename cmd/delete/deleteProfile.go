@@ -12,15 +12,15 @@ func NewCmdDeleteProfile(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "profile",
-		Short: "delete kubeflow profile",
-		Long:  `TBU`,
+		Short: "Delete kubeflow profile",
+		Long:  `Delete kubeflow profile`,
 		Run: func(cmd *cobra.Command, args []string) {
 			profileName, _ := cmd.Flags().GetString("profile")
 
 			_, err := c.GetProfile(profileName)
 			if err != nil {
 				if errors.IsNotFound(err) {
-					panic(fmt.Errorf("Kubeflow profile '%s' does not exist", profileName))
+					panic(fmt.Errorf("kubeflow profile '%s' does not exist", profileName))
 
 				} else {
 					panic(err)

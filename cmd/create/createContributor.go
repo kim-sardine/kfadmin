@@ -18,7 +18,7 @@ func NewCmdCreateContributor(c *client.KfClient, ioStreams clioption.IOStreams) 
 	cmd := &cobra.Command{
 		Use:   "contributor",
 		Short: "Create contributor for kubeflow profile",
-		Long:  `TBU`,
+		Long:  `Create contributor for kubeflow profile`,
 		Run: func(cmd *cobra.Command, args []string) {
 			profile, _ := cmd.Flags().GetString("profile")
 			email, _ := cmd.Flags().GetString("email")
@@ -26,7 +26,7 @@ func NewCmdCreateContributor(c *client.KfClient, ioStreams clioption.IOStreams) 
 			_, err := c.GetProfile(profile)
 			if err != nil {
 				if errors.IsNotFound(err) {
-					panic(fmt.Errorf("Profile '%s' does not exists", profile))
+					panic(fmt.Errorf("profile '%s' does not exists", profile))
 				} else {
 					panic(err)
 				}

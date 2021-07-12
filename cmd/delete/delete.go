@@ -11,7 +11,7 @@ func NewCmdDelete(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Comm
 	cmd := &cobra.Command{
 		Use:   "delete",
 		Short: "Delete kubeflow resources",
-		Long:  `TBU`,
+		Long:  `Delete kubeflow resources`,
 	}
 
 	cmd.AddCommand(NewCmdDeleteProfile(c))

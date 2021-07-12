@@ -32,7 +32,7 @@ func NewCmdCreateProfile(c *client.KfClient, ioStreams clioption.IOStreams) *cob
 	cmd := &cobra.Command{
 		Use:   "profile",
 		Short: "Create kubeflow profile",
-		Long:  `TBU`,
+		Long:  `Create kubeflow profile`,
 		Run: func(cmd *cobra.Command, args []string) {
 			util.CkeckErr(o.Run(c, cmd))
 		},

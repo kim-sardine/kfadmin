@@ -12,8 +12,8 @@ func NewCmdUpdateProfileOwner(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "owner",
-		Short: "update kubeflow profile owner",
-		Long:  `TBU`,
+		Short: "Update kubeflow profile owner",
+		Long:  `Update kubeflow profile owner`,
 		Run: func(cmd *cobra.Command, args []string) {
 			profileName, _ := cmd.Flags().GetString("profile")
 			email, _ := cmd.Flags().GetString("email")
@@ -21,7 +21,7 @@ func NewCmdUpdateProfileOwner(c *client.KfClient) *cobra.Command {
 			profile, err := c.GetProfile(profileName)
 			if err != nil {
 				if errors.IsNotFound(err) {
-					panic(fmt.Errorf("Profile '%s' does not exists", profileName))
+					panic(fmt.Errorf("profile '%s' does not exists", profileName))
 				} else {
 					panic(err)
 				}

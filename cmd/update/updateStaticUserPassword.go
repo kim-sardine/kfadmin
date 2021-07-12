@@ -13,8 +13,8 @@ func NewCmdUpdateStaticUserPassword(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "password",
-		Short: "udpate dex static user's password",
-		Long:  `TBU`,
+		Short: "Udpate dex static user's password",
+		Long:  `Udpate dex static user's password`,
 		Run: func(cmd *cobra.Command, args []string) {
 			email, _ := cmd.Flags().GetString("email")
 			password, _ := cmd.Flags().GetString("password")

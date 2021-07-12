@@ -11,7 +11,7 @@ func NewCmdUpdate(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Comm
 	cmd := &cobra.Command{
 		Use:   "update",
 		Short: "Update kubeflow resources",
-		Long:  `TBU`,
+		Long:  `Update kubeflow resources`,
 	}
 
 	cmd.AddCommand(NewCmdUpdateProfile(c))

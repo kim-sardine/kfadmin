@@ -9,8 +9,8 @@ func NewCmdUpdateProfile(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "profile",
-		Short: "update kubeflow profile",
-		Long:  `TBU`,
+		Short: "Update kubeflow profile",
+		Long:  `Update kubeflow profile`,
 	}
 
 	cmd.AddCommand(NewCmdUpdateProfileOwner(c))
