@@ -25,17 +25,17 @@ Find more information at: https://github.com/kim-sardine/kfadmin
 
 Examples:
 
-- kfadmin get static-users
+- kfadmin get staticusers
 - kfadmin get profiles
 
-- kfadmin create static-user -e USER_EMAIL -p PASSWORD
+- kfadmin create staticuser -e USER_EMAIL -p PASSWORD
 - kfadmin create profile -p PROFILE_NAME -e OWNER_EMAIL
 - kfadmin create contributor -p PROFILE_NAME -e USER_EMAIL
 
-- kfadmin update static-user password -e USER_EMAIL -p NEW_PASSWORD
+- kfadmin update staticuser password -e USER_EMAIL -p NEW_PASSWORD
 - kfadmin update profile owner -p PROFILE_NAME -e NEW_OWNER_EMAIL
 
-- kfadmin delete static-user -e USER_EMAIL
+- kfadmin delete staticuser -e USER_EMAIL
 - kfadmin delete profile -p PROFILE_NAME
 - kfadmin delete contributor -p PROFILE_NAME -e NEW_CONTRIBUTOR_EMAIL`,
 	}

@@ -11,9 +11,10 @@ import (
 func NewCmdDeleteStaticUser(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
-		Use:   "static-user",
-		Short: "Delete dex static user",
-		Long:  `Delete dex static user`,
+		Use:     "staticuser",
+		Aliases: []string{"static-user"},
+		Short:   "Delete dex static user",
+		Long:    `Delete dex static user`,
 		Run: func(cmd *cobra.Command, args []string) {
 			email, _ := cmd.Flags().GetString("email")
 

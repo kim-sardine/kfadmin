@@ -32,9 +32,10 @@ func NewCmdCreateStaticUser(c *client.KfClient, ioStreams clioption.IOStreams) *
 	o := NewCreateStaticUserOptions(ioStreams)
 
 	cmd := &cobra.Command{
-		Use:   "static-user",
-		Short: "Create new dex static user",
-		Long:  `Create new dex static user`,
+		Use:     "staticuser",
+		Aliases: []string{"static-user"},
+		Short:   "Create new dex static user",
+		Long:    `Create new dex static user`,
 		Run: func(cmd *cobra.Command, args []string) {
 			util.CkeckErr(o.Run(c, cmd))
 		},

@@ -50,7 +50,7 @@
 
 > Only when you're using `staticPasswords`
 
-`kfadmin get static-users`
+`kfadmin get staticusers`
 
 #### Get Profiles
 
@@ -62,7 +62,7 @@
 
 > Only when you're using `staticPasswords`
 
-`kfadmin create static-user -e USER_EMAIL -p PASSWORD`
+`kfadmin create staticuser -e USER_EMAIL -p PASSWORD`
 
 - flags
     - `-r`, `--restart-dex`
@@ -82,7 +82,7 @@
 
 #### Change Dex Static User's password
 
-`kfadmin update static-user password -e USER_EMAIL -p NEW_PASSWORD`
+`kfadmin update staticuser password -e USER_EMAIL -p NEW_PASSWORD`
 
 #### Change profile owner
 
@@ -92,7 +92,7 @@
 
 #### Delete Dex Static User
 
-`kfadmin delete static-user -e USER_EMAIL`
+`kfadmin delete staticuser -e USER_EMAIL`
 
 #### Delete profile
 

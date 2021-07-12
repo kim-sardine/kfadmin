@@ -8,9 +8,10 @@ import (
 func NewCmdUpdateStaticUser(c *client.KfClient) *cobra.Command {
 
 	cmd := &cobra.Command{
-		Use:   "static-user",
-		Short: "Update dex static user information",
-		Long:  `Update dex static user information`,
+		Use:     "staticuser",
+		Aliases: []string{"static-user"},
+		Short:   "Update dex static user information",
+		Long:    `Update dex static user information`,
 	}
 
 	cmd.AddCommand(NewCmdUpdateStaticUserPassword(c))
