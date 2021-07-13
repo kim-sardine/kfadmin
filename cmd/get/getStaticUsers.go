@@ -1,8 +1,6 @@
 package get
 
 import (
-	"os"
-
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/spf13/cobra"
 
@@ -57,7 +55,7 @@ func (o *GetStaticUserOptions) Run(c *client.KfClient, cmd *cobra.Command) error
 	}
 
 	t := table.NewWriter()
-	t.SetOutputMirror(os.Stdout)
+	t.SetOutputMirror(o.Out)
 	t.AppendHeader(table.Row{"#", "User Email"})
 	t.AppendRows(row)
 	t.AppendFooter(table.Row{"Total", len(dc.StaticPasswords)})
