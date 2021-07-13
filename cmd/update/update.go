@@ -14,8 +14,8 @@ func NewCmdUpdate(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Comm
 		Long:  `Update kubeflow resources`,
 	}
 
-	cmd.AddCommand(NewCmdUpdateProfile(c))
-	cmd.AddCommand(NewCmdUpdateStaticUser(c))
+	cmd.AddCommand(NewCmdUpdateProfile(c, ioStreams))
+	cmd.AddCommand(NewCmdUpdateStaticUser(c, ioStreams))
 
 	return cmd
 }

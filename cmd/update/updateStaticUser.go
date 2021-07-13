@@ -2,10 +2,11 @@ package update
 
 import (
 	"github.com/kim-sardine/kfadmin/client"
+	"github.com/kim-sardine/kfadmin/clioption"
 	"github.com/spf13/cobra"
 )
 
-func NewCmdUpdateStaticUser(c *client.KfClient) *cobra.Command {
+func NewCmdUpdateStaticUser(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:     "staticuser",

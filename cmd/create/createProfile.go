@@ -23,7 +23,6 @@ func NewCreateProfileOptions(ioStreams clioption.IOStreams) *CreateProfileOption
 	return &CreateProfileOptions{
 		IOStreams: ioStreams,
 	}
-
 }
 
 func NewCmdCreateProfile(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command {
@@ -55,7 +54,7 @@ func (o *CreateProfileOptions) Run(c *client.KfClient, cmd *cobra.Command) error
 
 	_, err := c.GetProfile(profileName)
 	if err == nil {
-		return fmt.Errorf("Profile '%s' already exists", profileName)
+		return fmt.Errorf("profile '%s' already exists", profileName)
 	}
 	if !errors.IsNotFound(err) {
 		return err
@@ -73,7 +72,7 @@ func (o *CreateProfileOptions) Run(c *client.KfClient, cmd *cobra.Command) error
 		}
 	}
 	if !userExists {
-		return fmt.Errorf("User with email '%s' does not exist", email)
+		return fmt.Errorf("user with email '%s' does not exist", email)
 	}
 
 	profile := manifest.GetProfile(profileName, email)

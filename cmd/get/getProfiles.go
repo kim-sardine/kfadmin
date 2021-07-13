@@ -17,16 +17,16 @@ func NewGetProfileOptions(ioStreams clioption.IOStreams) *GetProfileOptions {
 	return &GetProfileOptions{
 		IOStreams: ioStreams,
 	}
-
 }
 
 func NewCmdGetProfiles(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command {
 	o := NewGetProfileOptions(ioStreams)
 
 	cmd := &cobra.Command{
-		Use:   "profiles",
-		Short: "Print all kubeflow profiles",
-		Long:  `Print all kubeflow profiles`,
+		Use:     "profiles",
+		Aliases: []string{"profile"},
+		Short:   "Print all kubeflow profiles",
+		Long:    `Print all kubeflow profiles`,
 		Run: func(cmd *cobra.Command, args []string) {
 			util.CkeckErr(o.Run(c, cmd))
 		},

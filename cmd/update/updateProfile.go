@@ -2,10 +2,11 @@ package update
 
 import (
 	"github.com/kim-sardine/kfadmin/client"
+	"github.com/kim-sardine/kfadmin/clioption"
 	"github.com/spf13/cobra"
 )
 
-func NewCmdUpdateProfile(c *client.KfClient) *cobra.Command {
+func NewCmdUpdateProfile(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "profile",
@@ -13,7 +14,7 @@ func NewCmdUpdateProfile(c *client.KfClient) *cobra.Command {
 		Long:  `Update kubeflow profile`,
 	}
 
-	cmd.AddCommand(NewCmdUpdateProfileOwner(c))
+	cmd.AddCommand(NewCmdUpdateProfileOwner(c, ioStreams))
 
 	return cmd
 }
