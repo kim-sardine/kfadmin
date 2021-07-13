@@ -7,7 +7,7 @@ import (
 	"k8s.io/apimachinery/pkg/api/errors"
 
 	"github.com/kim-sardine/kfadmin/client"
-	"github.com/kim-sardine/kfadmin/client/manifest"
+	"github.com/kim-sardine/kfadmin/manifest"
 )
 
 func NewCmdDeleteContributor(c *client.KfClient) *cobra.Command {

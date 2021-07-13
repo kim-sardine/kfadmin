@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/kim-sardine/kfadmin/client"
-	"github.com/kim-sardine/kfadmin/client/manifest"
 	"github.com/kim-sardine/kfadmin/cmd/util"
+	"github.com/kim-sardine/kfadmin/manifest"
 	"github.com/spf13/cobra"
 )
 
