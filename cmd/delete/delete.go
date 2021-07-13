@@ -14,9 +14,9 @@ func NewCmdDelete(c *client.KfClient, ioStreams clioption.IOStreams) *cobra.Comm
 		Long:  `Delete kubeflow resources`,
 	}
 
-	cmd.AddCommand(NewCmdDeleteProfile(c))
-	cmd.AddCommand(NewCmdDeleteStaticUser(c))
-	cmd.AddCommand(NewCmdDeleteContributor(c))
+	cmd.AddCommand(NewCmdDeleteProfile(c, ioStreams))
+	cmd.AddCommand(NewCmdDeleteStaticUser(c, ioStreams))
+	cmd.AddCommand(NewCmdDeleteContributor(c, ioStreams))
 
 	return cmd
 }

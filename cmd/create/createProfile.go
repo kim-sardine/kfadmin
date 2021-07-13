@@ -18,7 +18,6 @@ type CreateProfileOptions struct {
 	clioption.IOStreams
 }
 
-// NewCreateProfileOptions returns initialized Options
 func NewCreateProfileOptions(ioStreams clioption.IOStreams) *CreateProfileOptions {
 	return &CreateProfileOptions{
 		IOStreams: ioStreams,

@@ -10,6 +10,6 @@ func CkeckErr(err error) {
 		return
 	}
 
-	fmt.Fprint(os.Stderr, err.Error())
+	fmt.Fprint(os.Stderr, err.Error()+"\n")
 	os.Exit(1)
 }

@@ -15,7 +15,7 @@ func NewCmdUpdateStaticUser(c *client.KfClient, ioStreams clioption.IOStreams) *
 		Long:    `Update dex static user information`,
 	}
 
-	cmd.AddCommand(NewCmdUpdateStaticUserPassword(c))
+	cmd.AddCommand(NewCmdUpdateStaticUserPassword(c, ioStreams))
 
 	return cmd
 }

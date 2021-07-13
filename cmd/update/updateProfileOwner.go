@@ -52,9 +52,9 @@ func (o *UpdateProfileOwnerOptions) Run(c *client.KfClient, cmd *cobra.Command) 
 	profile, err := c.GetProfile(profileName)
 	if err != nil {
 		if errors.IsNotFound(err) {
-			panic(fmt.Errorf("profile '%s' does not exists", profileName))
+			return fmt.Errorf("profile '%s' does not exists", profileName)
 		} else {
-			panic(err)
+			return err
 		}
 	}
 
@@ -63,26 +63,27 @@ func (o *UpdateProfileOwnerOptions) Run(c *client.KfClient, cmd *cobra.Command) 
 	profile.Spec.Owner.Name = email
 	err = c.UpdateProfile(profile)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	// rbacv1.RoleBinding namespaceAdmin
 	rb, err := c.GetRoleBinding(profileName, "namespaceAdmin")
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	rb.Annotations["user"] = email
 	rb.Subjects[0].Name = email
 	err = c.UpdateRoleBinding(profileName, rb)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
+	// FIXME: Not working here. maybe just manipulate profile??!
 	// istiorbac.ServiceRoleBinding
 	srb, err := c.GetServiceRoleBinding(profileName, "owner-binding-istio")
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	srb.Annotations["user"] = email
@@ -90,10 +91,10 @@ func (o *UpdateProfileOwnerOptions) Run(c *client.KfClient, cmd *cobra.Command) 
 
 	err = c.UpdateServiceRoleBinding(profileName, srb)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
-	fmt.Printf("Owner of the profile '%s' has changed to '%s'\n", profileName, email)
+	fmt.Fprintf(o.Out, "Owner of the profile '%s' has changed to '%s'\n", profileName, email)
 
 	return nil
 }
