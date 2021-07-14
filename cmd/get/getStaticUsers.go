@@ -39,7 +39,7 @@ func NewCmdGetStaticUsers(c *client.KfClient, ioStreams clioption.IOStreams) *co
 }
 
 func (o *GetStaticUserOptions) Run(c *client.KfClient, cmd *cobra.Command) error {
-	cm, err := c.GetDex()
+	cm, err := c.GetDexConfigMap()
 	if err != nil {
 		return err
 	}

@@ -2,7 +2,6 @@ package client
 
 import (
 	"context"
-	"fmt"
 	"os/exec"
 
 	"github.com/kim-sardine/kfadmin/manifest"
@@ -18,8 +17,8 @@ func (c *KfClient) GetConfigMap(namespace, name string) (*v1.ConfigMap, error) {
 	return cm, err
 }
 
-// GetDex TBU
-func (c *KfClient) GetDex() (*v1.ConfigMap, error) {
+// GetDexConfigMap TBU
+func (c *KfClient) GetDexConfigMap() (*v1.ConfigMap, error) {
 	dex, err := c.GetConfigMap("auth", "dex")
 	if err != nil {
 		return nil, err
@@ -33,15 +32,15 @@ func (c *KfClient) UpdateConfigMap(namespace string, cm *v1.ConfigMap) error {
 	return err
 }
 
-// UpdateDex TBU
-func (c *KfClient) UpdateDex(cm *v1.ConfigMap) error {
+// UpdateDexConfigMap TBU
+func (c *KfClient) UpdateDexConfigMap(cm *v1.ConfigMap) error {
 	err := c.UpdateConfigMap("auth", cm)
 	return err
 }
 
 // GetStaticUsers TBU
 func (c *KfClient) GetStaticUsers() ([]manifest.StaticPassword, error) {
-	cm, err := c.GetDex()
+	cm, err := c.GetDexConfigMap()
 	if err != nil {
 		return []manifest.StaticPassword{}, err
 	}
@@ -56,35 +55,35 @@ func (c *KfClient) GetStaticUsers() ([]manifest.StaticPassword, error) {
 }
 
 // RestartDexDeployment TBU
-// TODO: Should we restart dex automatically? or let admin manually restart it?
 // https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/#add-static-users-for-basic-auth
-func (c *KfClient) RestartDexDeployment(backupData string) error {
+func (c *KfClient) RestartDexDeployment() error {
 	cmd := exec.Command("kubectl", "rollout", "restart", "deployment", "dex", "-n", "auth")
 	_, err := cmd.Output()
 	if err != nil {
-		fmt.Println("failed to restart dex deployment")
-
-		fmt.Println("start rollback dex configmap...")
-		cm, err := c.GetDex()
-		if err != nil {
-			return err
-		}
-
-		dc, err := manifest.UnmarshalDexDataConfig(backupData)
-		if err != nil {
-			return err
-		}
-		cm.Data["config.yaml"], err = manifest.MarshalDexDataConfig(dc)
-		if err != nil {
-			return err
-		}
-
-		err2 := c.UpdateDex(cm)
-		if err2 != nil {
-			return err2
-		}
-		fmt.Println("finish rollback dex configmap")
 		return err
 	}
+	return nil
+}
+
+// RollbackDexDeployment TBU
+func (c *KfClient) RollbackDexDeployment(backupData string) error {
+	cm, err := c.GetDexConfigMap()
+	if err != nil {
+		return err
+	}
+
+	dc, err := manifest.UnmarshalDexDataConfig(backupData)
+	if err != nil {
+		return err
+	}
+	cm.Data["config.yaml"], err = manifest.MarshalDexDataConfig(dc)
+	if err != nil {
+		return err
+	}
+
+	if err2 := c.UpdateDexConfigMap(cm); err2 != nil {
+		return err2
+	}
+
 	return nil
 }

@@ -63,18 +63,18 @@ func (o *CreateStaticUserOptions) Run(c *client.KfClient, cmd *cobra.Command) er
 		return err
 	}
 
-	cm, err := c.GetDex()
+	cm, err := c.GetDexConfigMap()
 	if err != nil {
 		return err
 	}
 
 	originalData := cm.Data["config.yaml"]
-	dc, err := manifest.UnmarshalDexDataConfig(originalData)
+	dexDataConfig, err := manifest.UnmarshalDexDataConfig(originalData)
 	if err != nil {
 		return err
 	}
 
-	users := dc.StaticPasswords
+	users := dexDataConfig.StaticPasswords
 
 	uuids := make([]string, len(users)+1)
 	for _, user := range users {
@@ -93,27 +93,32 @@ func (o *CreateStaticUserOptions) Run(c *client.KfClient, cmd *cobra.Command) er
 		UserID:   util.GetUniqueUUID(uuids),
 	}
 
-	dc.StaticPasswords = append(dc.StaticPasswords, newUser)
+	dexDataConfig.StaticPasswords = append(dexDataConfig.StaticPasswords, newUser)
 
-	cm.Data["config.yaml"], err = manifest.MarshalDexDataConfig(dc)
+	cm.Data["config.yaml"], err = manifest.MarshalDexDataConfig(dexDataConfig)
 	if err != nil {
 		return err
 	}
 
-	err = c.UpdateDex(cm)
+	err = c.UpdateDexConfigMap(cm)
 	if err != nil {
 		return err
 	}
 
 	// TODO: into shared util
 	if restartDex {
-		err = c.RestartDexDeployment(originalData)
-		if err != nil {
-			return err
+		if err = c.RestartDexDeployment(); err != nil {
+			fmt.Fprintf(o.ErrOut, err.Error()+"\n")
+			fmt.Fprintf(o.ErrOut, "failed to restart dex deployment, rollback dex deployment...\n")
+			if err = c.RollbackDexDeployment(originalData); err != nil {
+				return err
+			}
+			return fmt.Errorf("completed rollback dex deployment")
 		}
+
 		fmt.Fprintf(o.Out, "user '%s' created\n", email)
 	} else {
-		fmt.Fprintf(o.Out, "user '%s' added to dex ConfigMap\nTo reflext changes, please run below command\n\nkubectl rollout restart deployment dex -n auth\n\n", email)
+		fmt.Fprintf(o.Out, "user '%s' has been added to dex\nTo reflect changes, please run below command\n\nkubectl rollout restart deployment dex -n auth\n\n", email)
 	}
 
 	return nil

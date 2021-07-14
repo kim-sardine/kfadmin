@@ -52,7 +52,7 @@ func (o *DeleteStaticUserOptions) Run(c *client.KfClient, cmd *cobra.Command) er
 	email, _ := cmd.Flags().GetString("email")
 
 	// Check if user exists
-	cm, err := c.GetDex()
+	cm, err := c.GetDexConfigMap()
 	if err != nil {
 		return err
 	}
@@ -82,14 +82,18 @@ func (o *DeleteStaticUserOptions) Run(c *client.KfClient, cmd *cobra.Command) er
 		return err
 	}
 
-	err = c.UpdateDex(cm)
+	err = c.UpdateDexConfigMap(cm)
 	if err != nil {
 		return err
 	}
 
-	err = c.RestartDexDeployment(originalData)
-	if err != nil {
-		return err
+	if err = c.RestartDexDeployment(); err != nil {
+		fmt.Fprintf(o.ErrOut, err.Error()+"\n")
+		fmt.Fprintf(o.ErrOut, "rollback dex deployment...\n")
+		if err = c.RollbackDexDeployment(originalData); err != nil {
+			return err
+		}
+		return fmt.Errorf("failed to restart dex deployment, completed rollback dex deployment")
 	}
 
 	fmt.Fprintf(o.Out, "static user '%s' deleted successfully\n", email)

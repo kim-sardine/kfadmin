@@ -28,18 +28,22 @@ type DexDataConfig struct {
 
 // StaticPassword TBU
 type StaticPassword struct {
-	Email    string `yaml:"email"`
-	Hash     string `yaml:"hash"`
-	Username string `yaml:"username"`
-	UserID   string `yaml:"userID"`
+	Email        string `yaml:"email"`
+	Hash         string `yaml:"hash,omitempty"`
+	HashFromFile string `yaml:"hashFromFile,omitempty"`
+	HashFromEnv  string `yaml:"hashFromEnv,omitempty"`
+	Username     string `yaml:"username"`
+	UserID       string `yaml:"userID"`
 }
 
 // StatiClient TBU
 type StatiClient struct {
-	ID           string   `yaml:"id"`
+	ID           string   `yaml:"id,omitempty"`
+	IDEnv        string   `yaml:"idEnv,omitempty"`
 	RedirectURIs []string `yaml:"redirectURIs,omitempty"`
 	Name         string   `yaml:"name"`
-	Secret       string   `yaml:"secret"`
+	Secret       string   `yaml:"secret,omitempty"`
+	SecretEnv    string   `yaml:"secretEnv,omitempty"`
 }
 
 // UnmarshalDexDataConfig TBU
