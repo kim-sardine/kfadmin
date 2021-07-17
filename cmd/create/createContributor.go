@@ -61,49 +61,54 @@ func (o *CreateContributorOptions) Run(c *client.KfClient, cmd *cobra.Command) e
 		}
 	}
 
-	users, err := c.GetStaticUsers()
-	if err != nil {
-		return err
-	}
-	userExists := false
-	for _, user := range users {
-		if user.Email == email {
-			userExists = true
-			break
+	_, err = c.GetDexConfigMap()
+	if err == nil { // env with dex
+		users, err := c.GetStaticUsers()
+		if err != nil {
+			return err
+		}
+		userExists := false
+		for _, user := range users {
+			if user.Email == email {
+				userExists = true
+				break
+			}
+		}
+		if !userExists {
+			return fmt.Errorf("static user with email '%s' does not exist", email)
 		}
 	}
-	if !userExists {
-		return fmt.Errorf("user with email '%s' does not exist", email)
-	}
 
-	serviceRoleBindingManifest, err := manifest.GetServiceRoleBinding(profile, email)
+	newServiceRoleBinding, err := manifest.NewServiceRoleBinding(profile, email)
 	if err != nil {
 		return err
 	}
-	srb, err := c.GetServiceRoleBinding(profile, serviceRoleBindingManifest.Name)
+
+	// Check if already exist
+	srb, err := c.GetServiceRoleBinding(profile, newServiceRoleBinding.Name)
 	if err != nil {
 		if !errors.IsNotFound(err) {
 			return err
 		}
 	}
 	if srb != nil {
-		return fmt.Errorf("ServiceRoleBinding '%s' already exists", serviceRoleBindingManifest.Name)
+		return fmt.Errorf("serviceRoleBinding '%s' already exists", newServiceRoleBinding.Name)
 	}
 
-	roleBinding, err := manifest.GetRoleBinding(profile, email)
-	if err != nil {
-		return err
-	}
-	err = c.CreateRoleBinding(profile, roleBinding)
-	if err != nil {
-		return err
-	}
-	err = c.CreateServiceRoleBinding(profile, serviceRoleBindingManifest)
+	newRoleBinding, err := manifest.NewRoleBinding(profile, email)
 	if err != nil {
 		return err
 	}
 
-	fmt.Fprintf(o.Out, "Added '%s' to '%s'\n", email, profile)
+	if err := c.CreateServiceRoleBinding(profile, newServiceRoleBinding); err != nil {
+		return err
+	}
+
+	if err := c.CreateRoleBinding(profile, newRoleBinding); err != nil {
+		return err
+	}
+
+	fmt.Fprintf(o.Out, "'%s' has been added to '%s'\n", email, profile)
 
 	return nil
 }

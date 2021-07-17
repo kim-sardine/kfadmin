@@ -9,8 +9,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// GetRoleBinding TBU
-func GetRoleBinding(namespace, userName string) (*rbacv1.RoleBinding, error) {
+// NewRoleBinding TBU
+func NewRoleBinding(namespace, userName string) (*rbacv1.RoleBinding, error) {
 	bindingName, err := GetBindingName(userName)
 	if err != nil {
 		return nil, err
@@ -41,8 +41,8 @@ func GetRoleBinding(namespace, userName string) (*rbacv1.RoleBinding, error) {
 	return rolebinding, nil
 }
 
-// GetServiceRoleBinding TBU
-func GetServiceRoleBinding(namespace, userName string) (*ServiceRoleBinding, error) {
+// NewServiceRoleBinding TBU
+func NewServiceRoleBinding(namespace, userName string) (*ServiceRoleBinding, error) {
 	bindingName, err := GetBindingName(userName)
 	if err != nil {
 		return nil, err

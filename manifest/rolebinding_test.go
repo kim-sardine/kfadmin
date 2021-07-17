@@ -18,7 +18,7 @@ func TestGetBindingName(t *testing.T) {
 }
 
 func TestGetRoleBinding(t *testing.T) {
-	rb, _ := GetRoleBinding(testNamespace, testUserName)
+	rb, _ := NewRoleBinding(testNamespace, testUserName)
 	bindingName, _ := GetBindingName(testUserName)
 
 	assert.Equal(t, "rbac.authorization.k8s.io/v1", rb.TypeMeta.APIVersion)
@@ -33,7 +33,7 @@ func TestGetRoleBinding(t *testing.T) {
 }
 
 func TestGetServiceRoleBinding(t *testing.T) {
-	rb, _ := GetServiceRoleBinding(testNamespace, testUserName)
+	rb, _ := NewServiceRoleBinding(testNamespace, testUserName)
 	bindingName, _ := GetBindingName(testUserName)
 
 	assert.Equal(t, "rbac.istio.io/v1alpha1", rb.TypeMeta.APIVersion)
