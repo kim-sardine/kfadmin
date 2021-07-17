@@ -2,25 +2,29 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"os/exec"
 
 	"github.com/kim-sardine/kfadmin/manifest"
 
 	"gopkg.in/yaml.v2"
 	v1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // GetConfigMap TBU
 func (c *KfClient) GetConfigMap(namespace, name string) (*v1.ConfigMap, error) {
-	cm, err := c.cs.CoreV1().ConfigMaps(namespace).Get(context.TODO(), name, metav1.GetOptions{})
-	return cm, err
+	return c.cs.CoreV1().ConfigMaps(namespace).Get(context.TODO(), name, metav1.GetOptions{})
 }
 
 // GetDexConfigMap TBU
 func (c *KfClient) GetDexConfigMap() (*v1.ConfigMap, error) {
 	dex, err := c.GetConfigMap("auth", "dex")
 	if err != nil {
+		if errors.IsNotFound(err) {
+			return nil, fmt.Errorf("can't find configmap \"dex\"\nThis command only works for dex")
+		}
 		return nil, err
 	}
 	return dex, nil
