@@ -2,28 +2,29 @@
 # kfadmin : CLI Tool for Kubeflow Admin
 
 - [kfadmin : CLI Tool for Kubeflow Admin](#kfadmin--cli-tool-for-kubeflow-admin)
-    - [Prerequitite](#prerequitite)
-    - [Confirmed running environment](#confirmed-running-environment)
-    - [Commands](#commands)
-        - [Get](#get)
-            - [Get Dex Static Users](#get-dex-static-users)
-            - [Get Profiles](#get-profiles)
-        - [Create](#create)
-            - [Create Dex Static User](#create-dex-static-user)
-            - [Create profile](#create-profile)
-            - [Create contributor using existing user and profile](#create-contributor-using-existing-user-and-profile)
-        - [Update](#update)
-            - [Change Dex Static User's password](#change-dex-static-users-password)
-            - [Change profile owner](#change-profile-owner)
-        - [Delete](#delete)
-            - [Delete Dex Static User](#delete-dex-static-user)
-            - [Delete profile](#delete-profile)
-            - [Remove contributor from profile](#remove-contributor-from-profile)
-    - [Auto Completion](#auto-completion)
-        - [bash](#bash)
-        - [zsh](#zsh)
-        - [fish](#fish)
-        - [PowerShell](#powershell)
+  - [Prerequitite](#prerequitite)
+  - [Running environment](#running-environment)
+  - [Commands](#commands)
+    - [Get](#get)
+      - [Get Dex Static Users](#get-dex-static-users)
+      - [Get Profiles](#get-profiles)
+      - [Get Contributors (TBU)](#get-contributors-tbu)
+    - [Create](#create)
+      - [Create Dex Static User](#create-dex-static-user)
+      - [Create profile](#create-profile)
+      - [Create contributor using existing user and profile](#create-contributor-using-existing-user-and-profile)
+    - [Update](#update)
+      - [Change Dex Static User's password](#change-dex-static-users-password)
+      - [Change profile owner](#change-profile-owner)
+    - [Delete](#delete)
+      - [Delete Dex Static User](#delete-dex-static-user)
+      - [Delete profile](#delete-profile)
+      - [Remove contributor from profile](#remove-contributor-from-profile)
+  - [Auto Completion](#auto-completion)
+    - [bash](#bash)
+    - [zsh](#zsh)
+    - [fish](#fish)
+    - [PowerShell](#powershell)
 
 ## Prerequitite
 
@@ -32,10 +33,10 @@
 
 > commands like `kubectl get nodes` should be working.
 
-## Confirmed running environment
+## Running environment
 
-- kubectl : 1.19.3
-- Kubernetes cluster : 1.19.3
+- kubectl : v1.19.3
+- Kubernetes cluster : v1.19.3
 - kfctl : 1.2.0 (kfctl_istio_dex.v1.2.0.yaml)
 
 ## Commands
@@ -54,7 +55,15 @@
 
 #### Get Profiles
 
-`kfadmin get profiles`
+- `kfadmin get profiles`
+  - Get all profiles
+- `kfadmin get profiles -e EMAIL` (TBU)
+  - Get profiles that containing a specific user
+
+#### Get Contributors (TBU)
+
+- `kfadmin get contributors -p PROFILE`
+  - Get all contributors included in a specific profile
 
 ### Create
 
