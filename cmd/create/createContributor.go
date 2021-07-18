@@ -61,8 +61,8 @@ func (o *CreateContributorOptions) Run(c *client.KfClient, cmd *cobra.Command) e
 		}
 	}
 
-	_, err = c.GetDexConfigMap()
-	if err == nil { // env with dex
+	// if its dex environment, user must be a static user. if not, do not check if user exists
+	if _, err = c.GetDexConfigMap(); err == nil {
 		users, err := c.GetStaticUsers()
 		if err != nil {
 			return err
@@ -84,11 +84,10 @@ func (o *CreateContributorOptions) Run(c *client.KfClient, cmd *cobra.Command) e
 		return err
 	}
 
-	// Check if already exist
 	srb, err := c.GetServiceRoleBinding(profile, newServiceRoleBinding.Name)
 	if err != nil {
 		if !errors.IsNotFound(err) {
-			return err
+			return err // error if serviceRoleBinding already exist
 		}
 	}
 	if srb != nil {
@@ -100,6 +99,7 @@ func (o *CreateContributorOptions) Run(c *client.KfClient, cmd *cobra.Command) e
 		return err
 	}
 
+	// TODO: to atomic transaction
 	if err := c.CreateServiceRoleBinding(profile, newServiceRoleBinding); err != nil {
 		return err
 	}

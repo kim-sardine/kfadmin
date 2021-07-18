@@ -13,6 +13,10 @@ type IOStreams struct {
 	ErrOut io.Writer
 }
 
+type DexOptions struct {
+	RestartDex bool
+}
+
 // NewTestIOStreams returns a valid IOStreams and in, out, errout buffers for unit tests
 func NewTestIOStreams() (IOStreams, *bytes.Buffer, *bytes.Buffer, *bytes.Buffer) {
 	in := &bytes.Buffer{}

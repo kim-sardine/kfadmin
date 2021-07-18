@@ -59,24 +59,26 @@ func (o *CreateProfileOptions) Run(c *client.KfClient, cmd *cobra.Command) error
 		return err
 	}
 
-	users, err := c.GetStaticUsers()
-	if err != nil {
-		return err
-	}
-	userExists := false
-	for _, user := range users {
-		if user.Email == email {
-			userExists = true
-			break
+	if _, err = c.GetDexConfigMap(); err == nil {
+		users, err := c.GetStaticUsers()
+		if err != nil {
+			return err
 		}
-	}
-	if !userExists {
-		return fmt.Errorf("user with email '%s' does not exist", email)
+		userExists := false
+		for _, user := range users {
+			if user.Email == email {
+				userExists = true
+				break
+			}
+		}
+		if !userExists {
+			return fmt.Errorf("user : '%s' does not exist", email)
+		}
 	}
 
 	profile := manifest.GetProfile(profileName, email)
-	err = c.CreateProfile(profile)
-	if err != nil {
+
+	if err := c.CreateProfile(profile); err != nil {
 		return err
 	}
 

@@ -68,13 +68,12 @@
 
 > Only when you're using `staticPasswords`
 
-`kfadmin create staticuser -e USER_EMAIL -p PASSWORD`
+`kfadmin create staticuser -e USER_EMAIL -p PASSWORD -r`
 
 - flags
     - `-r`, `--restart-dex`
         - Restart `dex` deployment after updating ConfigMap to reflect changes
         - Without this option, you have to run `kubectl rollout restart deployment dex -n auth` to manually reflect changes
-    - `-y` (TBD)
 
 #### Create profile
 
@@ -88,7 +87,12 @@
 
 #### Change Dex Static User's password
 
-`kfadmin update staticuser password -e USER_EMAIL -p NEW_PASSWORD`
+`kfadmin update staticuser password -e USER_EMAIL -p NEW_PASSWORD -r`
+
+- flags
+    - `-r`, `--restart-dex`
+        - Restart `dex` deployment after updating ConfigMap to reflect changes
+        - Without this option, you have to run `kubectl rollout restart deployment dex -n auth` to manually reflect changes
 
 #### Change profile owner
 
@@ -98,7 +102,12 @@
 
 #### Delete Dex Static User
 
-`kfadmin delete staticuser -e USER_EMAIL`
+`kfadmin delete staticuser -e USER_EMAIL -r`
+
+- flags
+    - `-r`, `--restart-dex`
+        - Restart `dex` deployment after updating ConfigMap to reflect changes
+        - Without this option, you have to run `kubectl rollout restart deployment dex -n auth` to manually reflect changes
 
 #### Delete profile
 

@@ -14,6 +14,7 @@ type UpdateStaticUserPasswordOptions struct {
 	Email    string
 	Password string
 
+	clioption.DexOptions
 	clioption.IOStreams
 }
 
@@ -40,6 +41,7 @@ func NewCmdUpdateStaticUserPassword(c *client.KfClient, ioStreams clioption.IOSt
 	cmd.MarkFlagRequired("email")
 	cmd.Flags().StringVarP(&o.Password, "password", "p", "", "User password")
 	cmd.MarkFlagRequired("password")
+	util.AddRestartDexFlag(cmd, &o.RestartDex)
 
 	return cmd
 }
@@ -85,21 +87,19 @@ func (o *UpdateStaticUserPasswordOptions) Run(c *client.KfClient, cmd *cobra.Com
 		return err
 	}
 
-	err = c.UpdateDexConfigMap(cm)
-	if err != nil {
+	if err := c.UpdateDexConfigMap(cm); err != nil {
 		return err
 	}
 
-	if err = c.RestartDexDeployment(); err != nil {
-		fmt.Fprintf(o.ErrOut, err.Error()+"\n")
-		fmt.Fprintf(o.ErrOut, "rollback dex deployment...\n")
-		if err = c.RollbackDexDeployment(originalData); err != nil {
+	fmt.Fprintf(o.Out, "user '%s' has been updated\n", email)
+
+	if o.RestartDex {
+		if err := c.RestartDex(o.ErrOut, originalData); err != nil {
 			return err
 		}
-		return fmt.Errorf("failed to restart dex deployment, completed rollback dex deployment")
+	} else {
+		fmt.Fprintf(o.Out, "To reflect changes, please run below command\n\nkubectl rollout restart deployment dex -n auth\n\n")
 	}
-
-	fmt.Fprintf(o.Out, "user '%s' updated\n", email)
 
 	return nil
 }

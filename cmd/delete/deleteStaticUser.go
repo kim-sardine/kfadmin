@@ -13,8 +13,7 @@ import (
 type DeleteStaticUserOptions struct {
 	Email string
 
-	RestartDex bool
-
+	clioption.DexOptions
 	clioption.IOStreams
 }
 
@@ -41,8 +40,7 @@ func NewCmdDeleteStaticUser(c *client.KfClient, ioStreams clioption.IOStreams) *
 	cmd.Flags().SortFlags = false
 	cmd.Flags().StringVarP(&o.Email, "email", "e", "", "Email of new dex static user")
 	cmd.MarkFlagRequired("email")
-	// TODO: into shared util
-	cmd.Flags().BoolVarP(&o.RestartDex, "restart-dex", "r", false, "Restart dex deployment to reflect changes")
+	util.AddRestartDexFlag(cmd, &o.RestartDex)
 
 	return cmd
 }
@@ -82,21 +80,19 @@ func (o *DeleteStaticUserOptions) Run(c *client.KfClient, cmd *cobra.Command) er
 		return err
 	}
 
-	err = c.UpdateDexConfigMap(cm)
-	if err != nil {
+	if err := c.UpdateDexConfigMap(cm); err != nil {
 		return err
 	}
 
-	if err = c.RestartDexDeployment(); err != nil {
-		fmt.Fprintf(o.ErrOut, err.Error()+"\n")
-		fmt.Fprintf(o.ErrOut, "rollback dex deployment...\n")
-		if err = c.RollbackDexDeployment(originalData); err != nil {
+	fmt.Fprintf(o.Out, "static user '%s' has been deleted successfully\n", email)
+
+	if o.RestartDex {
+		if err := c.RestartDex(o.ErrOut, originalData); err != nil {
 			return err
 		}
-		return fmt.Errorf("failed to restart dex deployment, completed rollback dex deployment")
+	} else {
+		fmt.Fprintf(o.Out, "To reflect changes, please run below command\n\nkubectl rollout restart deployment dex -n auth\n\n")
 	}
-
-	fmt.Fprintf(o.Out, "static user '%s' deleted successfully\n", email)
 
 	return nil
 }

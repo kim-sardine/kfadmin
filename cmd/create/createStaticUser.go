@@ -15,8 +15,7 @@ type CreateStaticUserOptions struct {
 	Email    string
 	Password string
 
-	RestartDex bool
-
+	clioption.DexOptions
 	clioption.IOStreams
 }
 
@@ -46,8 +45,7 @@ func NewCmdCreateStaticUser(c *client.KfClient, ioStreams clioption.IOStreams) *
 	cmd.MarkFlagRequired("email")
 	cmd.Flags().StringVarP(&o.Password, "password", "p", "", "Password of new dex static user")
 	cmd.MarkFlagRequired("password")
-	// TODO: into shared util
-	cmd.Flags().BoolVarP(&o.RestartDex, "restart-dex", "r", false, "Restart dex deployment to reflect changes")
+	util.AddRestartDexFlag(cmd, &o.RestartDex)
 
 	return cmd
 }
@@ -56,7 +54,6 @@ func (o *CreateStaticUserOptions) Run(c *client.KfClient, cmd *cobra.Command) er
 
 	email := o.Email
 	password := o.Password
-	restartDex := o.RestartDex
 
 	username, err := util.GetUsernameFromEmail(email)
 	if err != nil {
@@ -100,25 +97,18 @@ func (o *CreateStaticUserOptions) Run(c *client.KfClient, cmd *cobra.Command) er
 		return err
 	}
 
-	err = c.UpdateDexConfigMap(cm)
-	if err != nil {
+	if err := c.UpdateDexConfigMap(cm); err != nil {
 		return err
 	}
 
-	// TODO: into shared util
-	if restartDex {
-		if err = c.RestartDexDeployment(); err != nil {
-			fmt.Fprintf(o.ErrOut, err.Error()+"\n")
-			fmt.Fprintf(o.ErrOut, "failed to restart dex deployment, rollback dex deployment...\n")
-			if err = c.RollbackDexDeployment(originalData); err != nil {
-				return err
-			}
-			return fmt.Errorf("completed rollback dex deployment")
-		}
+	fmt.Fprintf(o.Out, "user '%s' created\n", email)
 
-		fmt.Fprintf(o.Out, "user '%s' created\n", email)
+	if o.RestartDex {
+		if err := c.RestartDex(o.ErrOut, originalData); err != nil {
+			return err
+		}
 	} else {
-		fmt.Fprintf(o.Out, "user '%s' has been added to dex\nTo reflect changes, please run below command\n\nkubectl rollout restart deployment dex -n auth\n\n", email)
+		fmt.Fprintf(o.Out, "To reflect changes, please run below command\n\nkubectl rollout restart deployment dex -n auth\n\n")
 	}
 
 	return nil

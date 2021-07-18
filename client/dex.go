@@ -3,7 +3,8 @@ package client
 import (
 	"context"
 	"fmt"
-	"os/exec"
+	"io"
+	"time"
 
 	"github.com/kim-sardine/kfadmin/manifest"
 
@@ -58,17 +59,6 @@ func (c *KfClient) GetStaticUsers() ([]manifest.StaticPassword, error) {
 	return dc.StaticPasswords, nil
 }
 
-// RestartDexDeployment TBU
-// https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/#add-static-users-for-basic-auth
-func (c *KfClient) RestartDexDeployment() error {
-	cmd := exec.Command("kubectl", "rollout", "restart", "deployment", "dex", "-n", "auth")
-	_, err := cmd.Output()
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 // RollbackDexDeployment TBU
 func (c *KfClient) RollbackDexDeployment(backupData string) error {
 	cm, err := c.GetDexConfigMap()
@@ -89,5 +79,34 @@ func (c *KfClient) RollbackDexDeployment(backupData string) error {
 		return err2
 	}
 
+	return nil
+}
+
+// RestartDexDeployment TBU
+// https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/#add-static-users-for-basic-auth
+func (c *KfClient) RestartDexDeployment() error {
+	dexDeployment, err := c.cs.AppsV1().Deployments("auth").Get(context.TODO(), "dex", metav1.GetOptions{})
+	if err != nil {
+		return err
+	}
+
+	dexDeployment.Spec.Template.Annotations["date"] = time.Now().String()
+	_, err = c.cs.AppsV1().Deployments("auth").Update(context.TODO(), dexDeployment, metav1.UpdateOptions{})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (c *KfClient) RestartDex(out io.Writer, backupData string) error {
+	if err := c.RestartDexDeployment(); err != nil {
+		fmt.Fprintf(out, err.Error()+"\n")
+		fmt.Fprintf(out, "failed to restart dex deployment, rollback dex deployment...\n")
+		if err = c.RollbackDexDeployment(backupData); err != nil {
+			return err
+		}
+		return fmt.Errorf("completed rollback dex deployment")
+	}
 	return nil
 }
