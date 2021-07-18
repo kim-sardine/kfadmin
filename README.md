@@ -55,10 +55,7 @@
 
 #### Get Profiles
 
-- `kfadmin get profiles`
-  - Get all profiles
-- `kfadmin get profiles -e EMAIL` (TBU)
-  - Get profiles that containing a specific user
+`kfadmin get profiles`
 
 #### Get Contributors (TBU)
 

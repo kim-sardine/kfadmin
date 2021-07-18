@@ -28,6 +28,15 @@ func (c *KfClient) GetRoleBinding(namespace, name string) (*rbacv1.RoleBinding, 
 	return rb, nil
 }
 
+// ListProfileRoleBindings TBU
+func (c *KfClient) ListProfileRoleBindings(namespace string) (*rbacv1.RoleBindingList, error) {
+	rbs, err := c.cs.RbacV1().RoleBindings(namespace).List(context.TODO(), metav1.ListOptions{})
+	if err != nil {
+		return nil, err
+	}
+	return rbs, nil
+}
+
 // UpdateRoleBinding TBU
 func (c *KfClient) UpdateRoleBinding(namespace string, roleBinding *rbacv1.RoleBinding) error {
 	_, err := c.cs.RbacV1().RoleBindings(namespace).Update(context.TODO(), roleBinding, metav1.UpdateOptions{})

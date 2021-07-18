@@ -1,6 +1,8 @@
 package get
 
 import (
+	"strings"
+
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/spf13/cobra"
 
@@ -49,18 +51,31 @@ func (o *GetStaticUserOptions) Run(c *client.KfClient, cmd *cobra.Command) error
 		return err
 	}
 
-	// get all contributors
+	rolebindings, err := c.ListProfileRoleBindings("")
+	if err != nil {
+		return err
+	}
+
+	userToProfile := make(map[string][]string)
+	for _, rolebinding := range rolebindings.Items {
+		if strings.HasPrefix(rolebinding.Name, "user-") || rolebinding.Name == "namespaceAdmin" {
+			username := rolebinding.Annotations["user"]
+			profile := rolebinding.Namespace
+			userToProfile[username] = append(userToProfile[username], profile)
+		}
+	}
 
 	rows := make([]table.Row, len(dc.StaticPasswords))
 	for i, user := range dc.StaticPasswords {
-		rows = append(rows, table.Row{i + 1, user.Email})
+		profiles := strings.Join(userToProfile[user.Email], ", ")
+		rows = append(rows, table.Row{i + 1, user.Email, profiles})
 	}
 
 	t := table.NewWriter()
 	t.SetOutputMirror(o.Out)
-	t.AppendHeader(table.Row{"#", "Email"})
+	t.AppendHeader(table.Row{"#", "Email", "Profiles"})
 	t.AppendRows(rows)
-	t.AppendFooter(table.Row{"Total", len(dc.StaticPasswords)})
+	t.AppendFooter(table.Row{"Total", len(dc.StaticPasswords), "-"})
 	t.Render()
 
 	return nil
