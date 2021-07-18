@@ -48,7 +48,7 @@ func (o *GetProfileOptions) Run(c *client.KfClient, cmd *cobra.Command) error {
 
 	t := table.NewWriter()
 	t.SetOutputMirror(o.Out)
-	t.AppendHeader(table.Row{"#", "Profile Name", "Owner's email"})
+	t.AppendHeader(table.Row{"#", "Profile", "Owner"})
 	t.AppendRows(row)
 	t.Render()
 

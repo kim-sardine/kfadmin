@@ -49,15 +49,17 @@ func (o *GetStaticUserOptions) Run(c *client.KfClient, cmd *cobra.Command) error
 		return err
 	}
 
-	row := make([]table.Row, len(dc.StaticPasswords))
+	// get all contributors
+
+	rows := make([]table.Row, len(dc.StaticPasswords))
 	for i, user := range dc.StaticPasswords {
-		row = append(row, table.Row{i + 1, user.Email})
+		rows = append(rows, table.Row{i + 1, user.Email})
 	}
 
 	t := table.NewWriter()
 	t.SetOutputMirror(o.Out)
-	t.AppendHeader(table.Row{"#", "User Email"})
-	t.AppendRows(row)
+	t.AppendHeader(table.Row{"#", "Email"})
+	t.AppendRows(rows)
 	t.AppendFooter(table.Row{"Total", len(dc.StaticPasswords)})
 	t.Render()
 
