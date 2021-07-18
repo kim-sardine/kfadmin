@@ -91,7 +91,7 @@ func (o *UpdateStaticUserPasswordOptions) Run(c *client.KfClient, cmd *cobra.Com
 		return err
 	}
 
-	fmt.Fprintf(o.Out, "user '%s' has been updated\n", email)
+	fmt.Fprintf(o.Out, "password of user '%s' has been updated\n", email)
 
 	if o.RestartDex {
 		if err := c.RestartDex(o.ErrOut, originalData); err != nil {

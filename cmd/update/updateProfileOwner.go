@@ -58,11 +58,8 @@ func (o *UpdateProfileOwnerOptions) Run(c *client.KfClient, cmd *cobra.Command) 
 		}
 	}
 
-	// Update existing resources
-	// profile
 	profile.Spec.Owner.Name = email
-	err = c.UpdateProfile(profile)
-	if err != nil {
+	if err := c.UpdateProfile(profile); err != nil {
 		return err
 	}
 
@@ -74,13 +71,11 @@ func (o *UpdateProfileOwnerOptions) Run(c *client.KfClient, cmd *cobra.Command) 
 
 	rb.Annotations["user"] = email
 	rb.Subjects[0].Name = email
-	err = c.UpdateRoleBinding(profileName, rb)
-	if err != nil {
+	if err := c.UpdateRoleBinding(profileName, rb); err != nil {
 		return err
 	}
 
-	// FIXME: Not working here. maybe just manipulate profile??!
-	// istiorbac.ServiceRoleBinding
+	// FIXME: Not working here in kubeflow v1.3. Check Authorizationpolicy
 	srb, err := c.GetServiceRoleBinding(profileName, "owner-binding-istio")
 	if err != nil {
 		return err
@@ -89,8 +84,7 @@ func (o *UpdateProfileOwnerOptions) Run(c *client.KfClient, cmd *cobra.Command) 
 	srb.Annotations["user"] = email
 	srb.Spec.Subjects[0].Properties["request.headers[kubeflow-userid]"] = email
 
-	err = c.UpdateServiceRoleBinding(profileName, srb)
-	if err != nil {
+	if err := c.UpdateServiceRoleBinding(profileName, srb); err != nil {
 		return err
 	}
 
