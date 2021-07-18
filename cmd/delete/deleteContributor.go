@@ -61,19 +61,22 @@ func (o *DeleteContributorOptions) Run(c *client.KfClient, cmd *cobra.Command) e
 		}
 	}
 
-	users, err := c.GetStaticUsers()
-	if err != nil {
-		return err
-	}
-	userExists := false
-	for _, user := range users {
-		if user.Email == email {
-			userExists = true
-			break
+	// if its dex environment, user must be a static user. if not, do not check if user exists
+	if _, err = c.GetDexConfigMap(); err == nil {
+		users, err := c.GetStaticUsers()
+		if err != nil {
+			return err
 		}
-	}
-	if !userExists {
-		return fmt.Errorf("user with email '%s' does not exist", email)
+		userExists := false
+		for _, user := range users {
+			if user.Email == email {
+				userExists = true
+				break
+			}
+		}
+		if !userExists {
+			return fmt.Errorf("user with email '%s' does not exist", email)
+		}
 	}
 
 	bindingName, err := manifest.GetBindingName(email)
