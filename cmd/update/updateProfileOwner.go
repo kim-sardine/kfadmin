@@ -6,6 +6,7 @@ import (
 	"github.com/kim-sardine/kfadmin/client"
 	"github.com/kim-sardine/kfadmin/clioption"
 	"github.com/kim-sardine/kfadmin/cmd/util"
+	"github.com/kim-sardine/kfadmin/manifest"
 	"github.com/spf13/cobra"
 	"k8s.io/apimachinery/pkg/api/errors"
 )
@@ -45,6 +46,8 @@ func NewCmdUpdateProfileOwner(c *client.KfClient, ioStreams clioption.IOStreams)
 }
 
 func (o *UpdateProfileOwnerOptions) Run(c *client.KfClient, cmd *cobra.Command) error {
+	// Case 1. contributor to owner -> need to delete contributor-rolebinding
+	// Case 2. non-contributor to owner -> just change existing owner-rolebinding
 
 	profileName, _ := cmd.Flags().GetString("profile")
 	email, _ := cmd.Flags().GetString("email")
@@ -63,29 +66,49 @@ func (o *UpdateProfileOwnerOptions) Run(c *client.KfClient, cmd *cobra.Command) 
 		return err
 	}
 
-	// rbacv1.RoleBinding namespaceAdmin
-	rb, err := c.GetRoleBinding(profileName, "namespaceAdmin")
+	ownerRoleBinding, err := c.GetRoleBinding(profileName, "namespaceAdmin")
 	if err != nil {
 		return err
 	}
-
-	rb.Annotations["user"] = email
-	rb.Subjects[0].Name = email
-	if err := c.UpdateRoleBinding(profileName, rb); err != nil {
+	ownerRoleBinding.Annotations["user"] = email
+	ownerRoleBinding.Subjects[0].Name = email
+	if err := c.UpdateRoleBinding(profileName, ownerRoleBinding); err != nil {
 		return err
 	}
 
 	// FIXME: Not working here in kubeflow v1.3. Check Authorizationpolicy
-	srb, err := c.GetServiceRoleBinding(profileName, "owner-binding-istio")
+	ownerServiceRoleBinding, err := c.GetServiceRoleBinding(profileName, "owner-binding-istio")
+	if err != nil {
+		return err
+	}
+	ownerServiceRoleBinding.Annotations["user"] = email
+	ownerServiceRoleBinding.Spec.Subjects[0].Properties["request.headers[kubeflow-userid]"] = email
+	if err := c.UpdateServiceRoleBinding(profileName, ownerServiceRoleBinding); err != nil {
+		return err
+	}
+
+	// Delete old contributor-roleBinding
+	bindingName, err := manifest.GetBindingName(email)
 	if err != nil {
 		return err
 	}
 
-	srb.Annotations["user"] = email
-	srb.Spec.Subjects[0].Properties["request.headers[kubeflow-userid]"] = email
+	contributorRoleBinding, err := c.GetRoleBinding(profileName, bindingName)
+	if err != nil {
+		if !errors.IsNotFound(err) {
+			return err
+		}
+	}
 
-	if err := c.UpdateServiceRoleBinding(profileName, srb); err != nil {
-		return err
+	if contributorRoleBinding != nil { // Case 1
+		err = c.DeleteRoleBinding(profileName, bindingName)
+		if err != nil {
+			return err
+		}
+		err = c.DeleteServiceRoleBinding(profileName, bindingName)
+		if err != nil {
+			return err
+		}
 	}
 
 	fmt.Fprintf(o.Out, "Owner of the profile '%s' has changed to '%s'\n", profileName, email)

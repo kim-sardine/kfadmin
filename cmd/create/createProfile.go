@@ -51,15 +51,13 @@ func (o *CreateProfileOptions) Run(c *client.KfClient, cmd *cobra.Command) error
 	profileName, _ := cmd.Flags().GetString("profile")
 	email, _ := cmd.Flags().GetString("email")
 
-	_, err := c.GetProfile(profileName)
-	if err == nil {
+	if _, err := c.GetProfile(profileName); err == nil {
 		return fmt.Errorf("profile '%s' already exists", profileName)
-	}
-	if !errors.IsNotFound(err) {
+	} else if !errors.IsNotFound(err) {
 		return err
 	}
 
-	if _, err = c.GetDexConfigMap(); err == nil {
+	if _, err := c.GetDexConfigMap(); err == nil {
 		users, err := c.GetStaticUsers()
 		if err != nil {
 			return err

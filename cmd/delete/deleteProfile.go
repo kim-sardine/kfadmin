@@ -45,8 +45,7 @@ func (o *DeleteProfileOptions) Run(c *client.KfClient, cmd *cobra.Command) error
 
 	profileName, _ := cmd.Flags().GetString("profile")
 
-	_, err := c.GetProfile(profileName)
-	if err != nil {
+	if _, err := c.GetProfile(profileName); err != nil {
 		if errors.IsNotFound(err) {
 			return fmt.Errorf("kubeflow profile '%s' does not exist", profileName)
 
@@ -55,8 +54,7 @@ func (o *DeleteProfileOptions) Run(c *client.KfClient, cmd *cobra.Command) error
 		}
 	}
 
-	err = c.DeleteProfile(profileName)
-	if err != nil {
+	if err := c.DeleteProfile(profileName); err != nil {
 		return err
 	}
 
